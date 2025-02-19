@@ -16,7 +16,9 @@ return {
     -- Description: A tree like view for symbols in Neovim using the Language Server Protocol.
     "simrat39/symbols-outline.nvim",
     cmd = "SymbolsOutline", -- Command to open the symbols outline
-    keys = { { "<leader>cs", "<cmd>SymbolsOutline<cr>", desc = "Symbols Outline" } }, -- Keybinding to open the symbols outline
+    keys = {
+      { "<leader>cs", "<cmd>SymbolsOutline<cr>", desc = "Symbols Outline" },
+    }, -- Keybinding to open the symbols outline
     config = true, -- Use default configuration
   },
   -- Add gitsigns.nvim plugin
@@ -26,8 +28,16 @@ return {
       return opts
     end,
     keys = {
-      { "<leader>gp", "<cmd>Gitsigns preview_hunk<CR>", desc = "Git Preview Hunk" },
-      { "<leader>gt", "<cmd>Gitsigns toggle_current_line_blame<CR>", desc = "Git Toggle Blame" },
+      {
+        "<leader>gp",
+        "<cmd>Gitsigns preview_hunk<CR>",
+        desc = "Git Preview Hunk",
+      },
+      {
+        "<leader>gt",
+        "<cmd>Gitsigns toggle_current_line_blame<CR>",
+        desc = "Git Toggle Blame",
+      },
     },
   },
   -- Add which-key.nvim plugin
@@ -35,11 +45,20 @@ return {
     "folke/which-key.nvim",
     opts = function(_, opts)
       opts.window = { border = "none", position = "bottom" }
-      opts.layout = { height = { min = 4, max = 25 }, width = { min = 30, max = 30 }, spacing = 8, align = "left" }
+      opts.layout = {
+        height = { min = 4, max = 25 },
+        width = { min = 30, max = 30 },
+        spacing = 8,
+        align = "left",
+      }
       return opts
     end,
     keys = {
-      { "<leader>o", "<cmd>lua require('oil').toggle_float()<CR>", desc = "Oil (cwd)" },
+      {
+        "<leader>o",
+        "<cmd>lua require('oil').toggle_float()<CR>",
+        desc = "oil (cwd)",
+      },
     },
   },
 }
