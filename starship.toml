@@ -144,11 +144,6 @@ symbol = ""
 style = "bg:teal"
 format = '[[ $symbol( $version) ](fg:gray1 bg:teal)]($style)'
 
-[haskell]
-symbol = ""
-style = "bg:teal"
-format = '[[ $symbol( $version) ](fg:gray1 bg:teal)]($style)'
-
 [python]
 symbol = ""
 style = "bg:teal"
