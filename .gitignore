@@ -1,0 +1,5 @@
+
+.DS_STORE
+.ssh
+.gitconfig
+.config/systemd/user/default.target.wants
