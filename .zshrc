@@ -39,6 +39,7 @@ export VIVID_THEME="$HOME/.config/vivid/themes/junction.yml"
 export EZA_COLORS="$(vivid generate "$VIVID_THEME")"
 
 if $IS_MACOS; then
+  export PATH="/usr/bin:$PATH"
   export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
 
   export ANDROID_HOME=$HOME/Library/Android/sdk
