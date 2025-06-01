@@ -1,7 +1,4 @@
-autoconf
-base
 bat
-bind
 btop
 cloc
 cloudflared
@@ -12,10 +9,8 @@ eza
 fd
 fzf
 git
-gnu-netcat
 inetutils
 jq
-kitty
 lazygit
 less
 lsof
@@ -29,10 +24,7 @@ superfile
 tailscale
 tmux
 tree
-ufw
 unzip
 vivid
-yazi
 zip
-zsh
 
