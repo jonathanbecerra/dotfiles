@@ -1,0 +1,103 @@
+colourful: true
+
+filekinds:
+  normal: {foreground: "#e3e1e3"}         # white
+  directory: {foreground: "#82d2ce"}      # lightseagreen
+  symlink: {foreground: "#af9cff"}        # orchid
+  pipe: {foreground: "#228df2"}           # dodgerblue (used instead of dark-blue)
+  block_device: {foreground: "#f14c4c"}   # crimson
+  char_device: {foreground: "#f14c4c"}    # crimson
+  socket: {foreground: "#228df2"}         # dodgerblue
+  special: {foreground: "#de3c72"}        # hotpink
+  executable: {foreground: "#15ac91"}     # mediumseagreen
+  mount_point: {foreground: "#efb080"}    # lightsalmon
+
+perms:
+  user_read: {foreground: "#e3e1e3"}       # white
+  user_write: {foreground: "#efb080"}      # lightsalmon
+  user_execute_file: {foreground: "#15ac91"} # mediumseagreen
+  user_execute_other: {foreground: "#15ac91"}
+  group_read: {foreground: "#e3e1e3"}
+  group_write: {foreground: "#efb080"}
+  group_execute: {foreground: "#15ac91"}
+  other_read: {foreground: "#e3e1e3"}
+  other_write: {foreground: "#efb080"}
+  other_execute: {foreground: "#15ac91"}
+  special_user_file: {foreground: "#de3c72"} # hotpink
+  special_other: {foreground: "#228df2"}     # dodgerblue
+  attribute: {foreground: "#e3e1e3"}
+
+size:
+  major: {foreground: "#f8c762"}        # gold
+  minor: {foreground: "#af9cff"}        # orchid
+  number_byte: {foreground: "#e3e1e3"}  # white
+  number_kilo: {foreground: "#e3e1e3"}  # white
+  number_mega: {foreground: "#82d2ce"}  # lightseagreen
+  number_giga: {foreground: "#de3c72"}  # hotpink
+  number_huge: {foreground: "#de3c72"}
+  unit_byte: {foreground: "#e3e1e3"}
+  unit_kilo: {foreground: "#82d2ce"}
+  unit_mega: {foreground: "#de3c72"}
+  unit_giga: {foreground: "#de3c72"}
+  unit_huge: {foreground: "#efb080"}    # lightsalmon
+
+users:
+  user_you: {foreground: "#e3e1e3"}      # white
+  user_root: {foreground: "#f14c4c"}     # crimson
+  user_other: {foreground: "#de3c72"}    # hotpink
+  group_yours: {foreground: "#e3e1e3"}
+  group_other: {foreground: "#228df2"}   # dodgerblue
+  group_root: {foreground: "#f14c4c"}
+
+links:
+  normal: {foreground: "#af9cff"}        # orchid
+  multi_link_file: {foreground: "#efb080"} # lightsalmon
+
+git:
+  new: {foreground: "#15ac91"}           # mediumseagreen
+  modified: {foreground: "#efb080"}      # lightsalmon
+  deleted: {foreground: "#f14c4c"}       # crimson
+  renamed: {foreground: "#82d2ce"}       # lightseagreen
+  typechange: {foreground: "#de3c72"}    # hotpink
+  ignored: {foreground: "#228df2"}       # dodgerblue
+  conflicted: {foreground: "#f14c4c"}
+
+git_repo:
+  branch_main: {foreground: "#e3e1e3"}   # white
+  branch_other: {foreground: "#de3c72"}  # hotpink
+  git_clean: {foreground: "#15ac91"}     # mediumseagreen
+  git_dirty: {foreground: "#f14c4c"}
+
+security_context:
+  colon: {foreground: "#228df2"}
+  user: {foreground: "#e3e1e3"}
+  role: {foreground: "#de3c72"}
+  typ: {foreground: "#228df2"}
+  range: {foreground: "#de3c72"}
+
+file_type:
+  image: {foreground: "#efb080"}         # lightsalmon
+  video: {foreground: "#f14c4c"}         # crimson
+  music: {foreground: "#15ac91"}         # mediumseagreen
+  lossless: {foreground: "#15ac91"}
+  crypto: {foreground: "#228df2"}
+  document: {foreground: "#e3e1e3"}      # white
+  compressed: {foreground: "#de3c72"}    # hotpink
+  temp: {foreground: "#f14c4c"}
+  compiled: {foreground: "#82d2ce"}
+  build: {foreground: "#228df2"}
+  source: {foreground: "#82d2ce"}
+
+punctuation: {foreground: "#228df2"}     # dodgerblue
+date: {foreground: "#efb080"}            # lightsalmon
+inode: {foreground: "#e3e1e3"}
+blocks: {foreground: "#e3e1e3"}
+header: {foreground: "#e3e1e3"}
+octal: {foreground: "#15ac91"}
+flags: {foreground: "#de3c72"}
+
+symlink_path: {foreground: "#af9cff"}
+control_char: {foreground: "#82d2ce"}
+broken_symlink: {foreground: "#f14c4c"}
+broken_path_overlay: {foreground: "#228df2"}
+

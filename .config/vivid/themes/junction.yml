@@ -1,0 +1,149 @@
+colors:
+  white              : 'e3e1e3'
+  black              : '181818'
+  dodgerblue         : '228df2'
+  mediumseagreen     : '15ac91'
+  orchid             : 'af9cff'
+  mediumaquamarine   : 'a8cc7c'
+  crimson            : 'f14c4c'
+  lightsalmon        : 'efb080'
+  gold               : 'f8c762'
+  darkorange         : 'ea7620'
+  red                : 'f14c4c'
+  orangered          : 'ea7620'
+  darkgoldenrod      : 'efb080'
+  khaki              : 'fad075'
+  hotpink            : 'de3c72'
+  mediumslateblue    : '5b51ec'
+  plum               : 'e394dc'
+  lightseagreen      : '82d2ce'
+
+core:
+  normal_text:
+    foreground: white
+
+  regular_file:
+    foreground: white
+
+  reset_to_normal:
+    foreground: darkorange
+
+  directory:
+    foreground: orchid
+
+  symlink:
+    foreground: lightseagreen
+
+  multi_hard_link: {}
+
+  fifo:
+    foreground: khaki
+    background: black
+
+  socket:
+    foreground: hotpink
+    background: black
+    font-style: bold
+
+  door:
+    foreground: hotpink
+    background: black
+    font-style: bold
+
+  block_device:
+    foreground: khaki
+    background: black
+    font-style: bold
+
+  character_device:
+    foreground: khaki
+    background: black
+    font-style: bold
+
+  broken_symlink:
+    foreground: crimson
+    background: black
+    font-style: bold
+
+  missing_symlink_target:
+    foreground: crimson
+    background: black
+
+  setuid:
+    foreground: white
+    background: crimson
+
+  setgid:
+    foreground: black
+    background: gold
+
+  file_with_capability: {}
+
+  sticky_other_writable:
+    foreground: black
+    background: mediumseagreen
+
+  other_writable:
+    foreground: orchid
+    background: mediumseagreen
+
+  sticky:
+    foreground: white
+    background: orchid
+
+  executable_file:
+    foreground: mediumseagreen
+
+text:
+  special:
+    foreground: darkorange
+
+  todo:
+    foreground: darkorange
+    font-style: bold
+
+  licenses:
+    foreground: darkorange
+
+  configuration:
+    foreground: darkorange
+
+  other:
+    foreground: darkorange
+
+markup:
+  foreground: darkorange
+
+programming:
+  foreground: darkorange
+
+media:
+  image:
+    foreground: hotpink
+
+  audio:
+    foreground: lightseagreen
+
+  video:
+    foreground: darkorange
+    font-style: bold
+
+  fonts:
+    foreground: darkorange
+
+  3d:
+    foreground: hotpink
+
+office:
+  foreground: darkorange
+
+archives:
+  foreground: crimson
+  font-style: bold
+
+executable:
+  foreground: mediumseagreen
+
+unimportant:
+  foreground: dodgerblue
+

@@ -1,15 +1,19 @@
 autoconf
 base
 bat
+bind
 btop
 cloc
 cloudflared
 direnv
 docker
 docker-compose
+eza
 fd
 fzf
 git
+gnu-netcat
+inetutils
 jq
 kitty
 lazygit
@@ -27,6 +31,7 @@ tmux
 tree
 ufw
 unzip
+vivid
 yazi
 zip
 zsh
