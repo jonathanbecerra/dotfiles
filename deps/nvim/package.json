@@ -1,0 +1,11 @@
+{
+  "name": "vps-nvim-tools",
+  "private": true,
+  "version": "1.0.0",
+  "dependencies": {
+    "@johnnymorganz/stylua-bin": "2.5.2",
+    "bash-language-server": "5.8.1",
+    "vscode-langservers-extracted": "4.10.0",
+    "yaml-language-server": "1.24.0"
+  }
+}

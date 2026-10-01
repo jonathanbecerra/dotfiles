@@ -1,0 +1,36 @@
+# Linux packages needed by the portable user environment.
+# Pinned releases in binaries.tsv are installed after these packages.
+bat
+btop
+build-essential
+ca-certificates
+cloc
+cmake
+coreutils
+curl
+direnv
+fd-find
+fontconfig
+fzf
+git
+git-delta
+gnupg
+inetutils
+jq
+less
+lsof
+make
+openssh-client
+ripgrep
+ruby
+shellcheck
+shfmt
+stow
+tmux
+tree
+unzip
+vivid
+zip
+zsh
+zsh-autosuggestions
+zsh-syntax-highlighting

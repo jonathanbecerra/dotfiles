@@ -1,0 +1,5 @@
+# destination under ~/.local/share	repository	commit
+zsh/powerlevel10k	https://github.com/romkatv/powerlevel10k.git	d05a1b00f9a61f9578bf9dc19b8451942dde8734
+nvim/lazy/lazy.nvim	https://github.com/folke/lazy.nvim.git	306a05526ada86a7b30af95c5cc81ffba93fef97
+nvm	https://github.com/nvm-sh/nvm.git	f0b0c6bb0b281ceeb106c8cf9ab8fde141215092
+tmux/rose-pine	https://github.com/rose-pine/tmux.git	6222fc73a9ce0bf36ffd3a8ca7d2f3e516f5c9ef

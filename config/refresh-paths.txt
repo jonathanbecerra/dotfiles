@@ -1,0 +1,16 @@
+# Relative to the home directory. No globs or shell expressions.
+# Managed config paths are discovered from the Stow packages automatically.
+.zshrc
+.zprofile
+.zlogin
+.zlogout
+.zshrc.local
+.oh-my-zsh
+.zprezto
+.zinit
+.local/share/zinit
+.tmux.conf.local
+.config/nvim-local.lua
+.local/share/nvim
+.local/state/nvim
+.cache/nvim

@@ -1,0 +1,50 @@
+{
+  "oil.nvim": {
+    "branch": "master",
+    "commit": "b73018b75affd13fa38e2fc94ef753b465f770d7"
+  },
+  "telescope.nvim": {
+    "branch": "master",
+    "commit": "40aedd8a68c78a656a10a8d62d80c54af59420fb"
+  },
+  "plenary.nvim": {
+    "branch": "master",
+    "commit": "74b06c6c75e4eeb3108ec01852001636d85a932b"
+  },
+  "rose-pine": {
+    "branch": "main",
+    "commit": "ff483051a47e27d84bdef47703538df1ed9f4a47"
+  },
+  "lualine.nvim": {
+    "branch": "master",
+    "commit": "221ce6b2d999187044529f49da6554a92f740a96"
+  },
+  "gitsigns.nvim": {
+    "branch": "main",
+    "commit": "070a5d7b985546cc57e1fc61e5bc507fecac6045"
+  },
+  "mini.nvim": {
+    "branch": "main",
+    "commit": "561751e839b99a4baca36b9d963166b66d2536a6"
+  },
+  "nvim-lspconfig": {
+    "branch": "master",
+    "commit": "a9bb4d5f4276aa5cddc015faa3ecc5a7b5a26b14"
+  },
+  "SchemaStore.nvim": {
+    "branch": "main",
+    "commit": "411163b2be396495c76788a016cb1354f1e8acd0"
+  },
+  "blink.cmp": {
+    "branch": "main",
+    "commit": "78336bc89ee5365633bcf754d93df01678b5c08f"
+  },
+  "conform.nvim": {
+    "branch": "master",
+    "commit": "016802de402556da54c36bd7359b441266b01cdd"
+  },
+  "lazy.nvim": {
+    "branch": "main",
+    "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97"
+  }
+}

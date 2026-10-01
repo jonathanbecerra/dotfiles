@@ -1,0 +1,26 @@
+# tool	arch	url	sha256	member
+eza	x86_64	https://github.com/eza-community/eza/releases/download/v0.23.5/eza_x86_64-unknown-linux-musl.tar.gz	e06eebab74b73d6b7d51a796a353824b001bea82df077706382e100815d28904	./eza
+eza	aarch64	https://github.com/eza-community/eza/releases/download/v0.23.5/eza_aarch64-unknown-linux-gnu_no_libgit.tar.gz	1c01b578b5bd3f23b7de5a4b41936cde20fb16ff16a03e63266317ac1eb821e0	./eza
+cloudflared	x86_64	https://github.com/cloudflare/cloudflared/releases/download/2026.9.3/cloudflared-linux-amd64	77e26d8d900e0b8469f416239d14b5f296525fdf79fee6f511ef55609e3fbac2	-
+cloudflared	aarch64	https://github.com/cloudflare/cloudflared/releases/download/2026.9.3/cloudflared-linux-arm64	aaeb2d7d0da3614634c7e03ab13487a1522c2e79165ed2929cfe23d5e95b326d	-
+git-cliff	x86_64	https://github.com/orhun/git-cliff/releases/download/v2.14.2/git-cliff-2.14.2-x86_64-unknown-linux-gnu.tar.gz	24f397c733add5390fdceee3a2088588ab0d5f944ce00d34cb7029b888cf2db4	git-cliff-2.14.2/git-cliff
+git-cliff	aarch64	https://github.com/orhun/git-cliff/releases/download/v2.14.2/git-cliff-2.14.2-aarch64-unknown-linux-gnu.tar.gz	69e208f6e4baef3a0f9b759d5f44223aa9336b86c691072a3d0c98d35a816e69	git-cliff-2.14.2/git-cliff
+lazygit	x86_64	https://github.com/jesseduffield/lazygit/releases/download/v0.65.1/lazygit_0.65.1_linux_x86_64.tar.gz	02beacbcda0fa342e50ae3480ba8147307353af3fb28e1d5f790e02329c201a6	lazygit
+lazygit	aarch64	https://github.com/jesseduffield/lazygit/releases/download/v0.65.1/lazygit_0.65.1_linux_arm64.tar.gz	49abecdf6adf4f2dfdb11bf7b9bfada267ea523612ed809d1c6d87f6c04000a7	lazygit
+lazydocker	x86_64	https://github.com/jesseduffield/lazydocker/releases/download/v0.25.2/lazydocker_0.25.2_Linux_x86_64.tar.gz	0d9dbfc26068b218e7ed84b104748cadc6e3cf733c0afd35465306fb39b9523c	lazydocker
+lazydocker	aarch64	https://github.com/jesseduffield/lazydocker/releases/download/v0.25.2/lazydocker_0.25.2_Linux_arm64.tar.gz	005c38b685aaa557e7d646d83a3dadb5024340eeed8c6a2e1949eee6f530de23	lazydocker
+glow	x86_64	https://github.com/charmbracelet/glow/releases/download/v3.0.0/glow_3.0.0_Linux_x86_64.tar.gz	13e05e4b2acc18d2aee44291aefe6325b077ec321b631a0cfa780e8e3bc33f78	glow_3.0.0_Linux_x86_64/glow
+glow	aarch64	https://github.com/charmbracelet/glow/releases/download/v3.0.0/glow_3.0.0_Linux_arm64.tar.gz	810c39f4691feb75e675a5f5f54b9fa091354e7599d9cf9c9fc9b97e47a99759	glow_3.0.0_Linux_arm64/glow
+yq	x86_64	https://github.com/mikefarah/yq/releases/download/v4.53.6/yq_linux_amd64	c5f056448f973ae7d39b5401949648a78f2dc1947d6a8eb65be60d5c504b9385	-
+yq	aarch64	https://github.com/mikefarah/yq/releases/download/v4.53.6/yq_linux_arm64	88a1016bc1d657375a35864e4f44b6f333df8ff97b559f51bba0adcb2169df09	-
+deja	x86_64	https://github.com/Giammarco-Ferranti/deja/releases/download/v0.4.2/deja_0.4.2_linux_amd64.tar.gz	32db767e728d447941a70cf7dc95376a1e0a96168ad79674593715ac165ed310	deja
+deja	aarch64	https://github.com/Giammarco-Ferranti/deja/releases/download/v0.4.2/deja_0.4.2_linux_arm64.tar.gz	2473d3fb0a82bb9e03f47b6817960e7b5b499f8904676104956c979b88f657f7	deja
+nvim	x86_64	https://github.com/neovim/neovim/releases/download/v0.12.5/nvim-linux-x86_64.tar.gz	bce0f56eda1f1b1db6eee8f4133d7a38813ea07933837dd1777411ca384c6875	nvim-linux-x86_64
+nvim	aarch64	https://github.com/neovim/neovim/releases/download/v0.12.5/nvim-linux-arm64.tar.gz	1aa5ca085249580ae0f91eb14f27ec0919773ff2d99a163d03f3d6c21ac29725	nvim-linux-arm64
+lua-language-server	x86_64	https://github.com/LuaLS/lua-language-server/releases/download/3.19.1/lua-language-server-3.19.1-linux-x64.tar.gz	e9235d2d72ef55bc41cf8c99cda2ed64777682024b4bb81f5dea425060c5cbb8	-
+lua-language-server	aarch64	https://github.com/LuaLS/lua-language-server/releases/download/3.19.1/lua-language-server-3.19.1-linux-arm64.tar.gz	abd2572e8fc929dc838a81ffb8473c5bce0bf39bfe8edb4b120b3b623176ce83	-
+superfile	x86_64	https://github.com/yorukot/superfile/releases/download/v1.6.0/superfile-linux-v1.6.0-amd64.tar.gz	d45b0e95072629a6aa7983a84eedca9cd7a98861e67ef91be1415496e3dda309	dist/superfile-linux-v1.6.0-amd64/spf
+superfile	aarch64	https://github.com/yorukot/superfile/releases/download/v1.6.0/superfile-linux-v1.6.0-arm64.tar.gz	2e8150dab1a139e3a081bd74a9c775155e8d0241c34ae3f8d30817a3df1b8f06	dist/superfile-linux-v1.6.0-arm64/spf
+jetbrains-mono	all	https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/JetBrainsMono.zip	fab782a66f7d3019da64f6572db9fc5d3a4bcb19f9fa13e2d8a62e3693d6396e	-
+nvim	macos-arm64	https://github.com/neovim/neovim/releases/download/v0.12.5/nvim-macos-arm64.tar.gz	65fb000099e47ca1b762584c484cc833f40e30851a0ec450d4174e16317c1f9b	nvim-macos-arm64
+nvim	macos-x86_64	https://github.com/neovim/neovim/releases/download/v0.12.5/nvim-macos-x86_64.tar.gz	81f4518622cb059b450ee2e498c6a1082a222f6bd89589de5bbcf0c6a68aa3fd	nvim-macos-x86_64

@@ -1,0 +1,38 @@
+[core]
+	editor = nvim
+	pager = delta
+[interactive]
+	diffFilter = delta --color-only
+[init]
+	defaultBranch = main
+[pull]
+	rebase = true
+[push]
+	autoSetupRemote = true
+[branch]
+	sort = -committerdate
+[checkout]
+	defaultRemote = origin
+[fetch]
+	prune = true
+[rerere]
+	enabled = true
+[merge]
+	conflictStyle = zdiff3
+[delta]
+	features = rose-pine
+	navigate = true
+	dark = true
+[delta "rose-pine"]
+	commit-decoration-style = "bold #c4a7e7 box"
+	file-decoration-style = "#9ccfd8"
+	file-style = "#e0def4"
+	hunk-header-decoration-style = "box #6e6a86"
+	hunk-header-style = "#e0def4"
+	minus-empty-line-marker-style = "#191724"
+	minus-line-format = "- {eb3}"
+	minus-style = "syntax #403d52"
+	plus-empty-line-marker-style = "#191724"
+	plus-line-format = "+ {eb3}"
+	plus-style = "syntax #26233a"
+	syntax-theme = "Rosé Pine"

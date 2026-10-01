@@ -1,0 +1,11 @@
+bat
+eza
+git
+glow
+kitty
+lazydocker
+lazygit
+nvim
+ripgrep
+tmux
+zsh
