@@ -16,7 +16,7 @@ help:
 	  'DRY_RUN=1 make <target>          Preview supported commands'
 
 install:
-	@bash scripts/install.sh
+	@bash scripts/install.sh --reload-shell
 
 reload-zsh:
 	@exec env -u ZDOTDIR zsh -l

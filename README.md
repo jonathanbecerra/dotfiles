@@ -9,14 +9,14 @@ same Rose Pine look, aliases, Git config, tmux, Neovim, and CLI tools.
 git clone git@github.com:jonathanbecerra/dotfiles.git
 cd dotfiles
 make install
-make reload-zsh
 ```
 
 `make install` installs the tools declared here and links the configs into your
 home directory with Stow. On macOS it uses Homebrew; on Linux it uses apt and
 the pinned local binaries. Linux installs also make sure the system clock is
 synchronized before contacting apt. Node is managed by NVM, and Neovim loads
-its plugins on the first start.
+its plugins on the first start. The install reloads Zsh after Stow completes.
+Run `make reload-zsh` after later config-only changes.
 
 If the tools are already installed, just link the configs:
 
@@ -36,7 +36,6 @@ paths, then apply the move:
 make refresh
 make refresh action=apply
 make install
-make reload-zsh
 ```
 
 The refresh makes a timestamped backup under

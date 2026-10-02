@@ -77,6 +77,10 @@ run nvim --headless '+Lazy! restore' +qa
 if [[ ${DRY_RUN:-0} == 1 ]]; then
   printf 'Preview complete. No tools or dotfiles were installed.\n'
 else
-  printf 'Dotfiles installed. Open a new terminal or run exec env -u ZDOTDIR zsh -l. Reload tmux with tmux source-file ~/.tmux.conf.\n'
+  if [[ $reload_shell == yes ]]; then
+    printf 'Dotfiles installed. Starting a fresh login shell. Reload tmux with tmux source-file ~/.tmux.conf.\n'
+  else
+    printf 'Dotfiles installed. Run make reload-zsh to start a fresh login shell. Reload tmux with tmux source-file ~/.tmux.conf.\n'
+  fi
 fi
 [[ $reload_shell != yes || ${DRY_RUN:-0} == 1 ]] || exec env -u ZDOTDIR zsh -l
