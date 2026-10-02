@@ -19,8 +19,6 @@ nvim	x86_64	https://github.com/neovim/neovim/releases/download/v0.12.5/nvim-linu
 nvim	aarch64	https://github.com/neovim/neovim/releases/download/v0.12.5/nvim-linux-arm64.tar.gz	1aa5ca085249580ae0f91eb14f27ec0919773ff2d99a163d03f3d6c21ac29725	nvim-linux-arm64
 lua-language-server	x86_64	https://github.com/LuaLS/lua-language-server/releases/download/3.19.1/lua-language-server-3.19.1-linux-x64.tar.gz	e9235d2d72ef55bc41cf8c99cda2ed64777682024b4bb81f5dea425060c5cbb8	-
 lua-language-server	aarch64	https://github.com/LuaLS/lua-language-server/releases/download/3.19.1/lua-language-server-3.19.1-linux-arm64.tar.gz	abd2572e8fc929dc838a81ffb8473c5bce0bf39bfe8edb4b120b3b623176ce83	-
-superfile	x86_64	https://github.com/yorukot/superfile/releases/download/v1.6.0/superfile-linux-v1.6.0-amd64.tar.gz	d45b0e95072629a6aa7983a84eedca9cd7a98861e67ef91be1415496e3dda309	dist/superfile-linux-v1.6.0-amd64/spf
-superfile	aarch64	https://github.com/yorukot/superfile/releases/download/v1.6.0/superfile-linux-v1.6.0-arm64.tar.gz	2e8150dab1a139e3a081bd74a9c775155e8d0241c34ae3f8d30817a3df1b8f06	dist/superfile-linux-v1.6.0-arm64/spf
 jetbrains-mono	all	https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/JetBrainsMono.zip	fab782a66f7d3019da64f6572db9fc5d3a4bcb19f9fa13e2d8a62e3693d6396e	-
 nvim	macos-arm64	https://github.com/neovim/neovim/releases/download/v0.12.5/nvim-macos-arm64.tar.gz	65fb000099e47ca1b762584c484cc833f40e30851a0ec450d4174e16317c1f9b	nvim-macos-arm64
 nvim	macos-x86_64	https://github.com/neovim/neovim/releases/download/v0.12.5/nvim-macos-x86_64.tar.gz	81f4518622cb059b450ee2e498c6a1082a222f6bd89589de5bbcf0c6a68aa3fd	nvim-macos-x86_64

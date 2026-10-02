@@ -20,7 +20,6 @@ read_apt_packages() {
 binary_destination() {
   case $1 in
     nvim) printf '%s/.local/bin/nvim\n' "$target_dir" ;;
-    superfile) printf '%s/.local/bin/spf\n' "$target_dir" ;;
     lua-language-server) printf '%s/.local/bin/lua-language-server\n' "$target_dir" ;;
     jetbrains-mono) printf '%s/.local/share/fonts/jetbrains-mono\n' "$target_dir" ;;
     *) printf '%s/.local/bin/%s\n' "$target_dir" "$1" ;;
@@ -76,10 +75,6 @@ install_binaries() {
 exec "$install_dir/bin/lua-language-server" "\$@"
 EOF
         install -m 0755 "$temporary/lua-language-server" "$destination"
-        ;;
-      superfile)
-        tar -xOf "$temporary/archive" "$member" >"$temporary/binary"
-        install -m 0755 "$temporary/binary" "$destination"
         ;;
       jetbrains-mono)
         font_dir="$destination"
