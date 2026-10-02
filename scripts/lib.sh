@@ -9,6 +9,14 @@ die() {
   printf 'Error: %s\n' "$*" >&2
   exit 1
 }
+
+reset_terminal_input() {
+  [[ -t 1 ]] || return 0
+  printf '\033[<u\033[=0;1u'
+}
+
+trap reset_terminal_input EXIT
+
 case ${DRY_RUN:-0} in 0 | 1) ;; *) die 'DRY_RUN must be 0 or 1.' ;; esac
 [[ $target_dir == /* && -d $target_dir && $target_dir != / ]] || die 'Target must be an existing home directory.'
 target_dir=$(cd -- "$target_dir" && pwd -P)

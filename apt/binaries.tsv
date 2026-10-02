@@ -13,8 +13,6 @@ glow	x86_64	https://github.com/charmbracelet/glow/releases/download/v3.0.0/glow_
 glow	aarch64	https://github.com/charmbracelet/glow/releases/download/v3.0.0/glow_3.0.0_Linux_arm64.tar.gz	810c39f4691feb75e675a5f5f54b9fa091354e7599d9cf9c9fc9b97e47a99759	glow_3.0.0_Linux_arm64/glow
 yq	x86_64	https://github.com/mikefarah/yq/releases/download/v4.53.6/yq_linux_amd64	c5f056448f973ae7d39b5401949648a78f2dc1947d6a8eb65be60d5c504b9385	-
 yq	aarch64	https://github.com/mikefarah/yq/releases/download/v4.53.6/yq_linux_arm64	88a1016bc1d657375a35864e4f44b6f333df8ff97b559f51bba0adcb2169df09	-
-deja	x86_64	https://github.com/Giammarco-Ferranti/deja/releases/download/v0.4.2/deja_0.4.2_linux_amd64.tar.gz	32db767e728d447941a70cf7dc95376a1e0a96168ad79674593715ac165ed310	deja
-deja	aarch64	https://github.com/Giammarco-Ferranti/deja/releases/download/v0.4.2/deja_0.4.2_linux_arm64.tar.gz	2473d3fb0a82bb9e03f47b6817960e7b5b499f8904676104956c979b88f657f7	deja
 nvim	x86_64	https://github.com/neovim/neovim/releases/download/v0.12.5/nvim-linux-x86_64.tar.gz	bce0f56eda1f1b1db6eee8f4133d7a38813ea07933837dd1777411ca384c6875	nvim-linux-x86_64
 nvim	aarch64	https://github.com/neovim/neovim/releases/download/v0.12.5/nvim-linux-arm64.tar.gz	1aa5ca085249580ae0f91eb14f27ec0919773ff2d99a163d03f3d6c21ac29725	nvim-linux-arm64
 lua-language-server	x86_64	https://github.com/LuaLS/lua-language-server/releases/download/3.19.1/lua-language-server-3.19.1-linux-x64.tar.gz	e9235d2d72ef55bc41cf8c99cda2ed64777682024b4bb81f5dea425060c5cbb8	-

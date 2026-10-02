@@ -72,7 +72,6 @@ if command -v bat >/dev/null; then
 elif command -v batcat >/dev/null; then
   run batcat cache --build
 fi
-if command -v deja >/dev/null; then run deja init zsh; fi
 run nvim --headless '+Lazy! restore' +qa
 if [[ ${DRY_RUN:-0} == 1 ]]; then
   printf 'Preview complete. No tools or dotfiles were installed.\n'
@@ -83,4 +82,7 @@ else
     printf 'Dotfiles installed. Run make reload-zsh to start a fresh login shell. Reload tmux with tmux source-file ~/.tmux.conf.\n'
   fi
 fi
-[[ $reload_shell != yes || ${DRY_RUN:-0} == 1 ]] || exec env -u ZDOTDIR zsh -l
+if [[ $reload_shell == yes && ${DRY_RUN:-0} != 1 ]]; then
+  reset_terminal_input
+  exec env -u ZDOTDIR zsh -l
+fi

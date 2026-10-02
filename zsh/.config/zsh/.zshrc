@@ -42,17 +42,12 @@ if (( $+commands[fzf] )); then
   fi
 fi
 
-export DEJA_ACCEPT_KEY='^L' DEJA_CYCLE_KEY='^N'
-export DEJA_TOGGLE_KEY='' DEJA_CYCLE_FUZZY_KEY='' DEJA_CYCLE_FUZZY_BACK_KEY=''
-export DEJA_TOGGLE_EMPTY_KEY='' DEJA_WORD_ACCEPT_KEY=''
-[[ ! -r "$HOME/.local/share/deja/init.zsh" ]] || source "$HOME/.local/share/deja/init.zsh"
-
 prompt_theme="${XDG_DATA_HOME:-$HOME/.local/share}/zsh/powerlevel10k/powerlevel10k.zsh-theme"
 if [[ -r $prompt_theme ]]; then
   source "$prompt_theme"
   [[ ! -r "$HOME/.p10k.zsh" ]] || source "$HOME/.p10k.zsh"
 else
-  PROMPT='%F{#908caa}%n@%m%f %F{#c4a7e7}%~%f %# '
+  PROMPT='%F{#f6c177}%n@%m%f %F{#c4a7e7}%~%f %# '
 fi
 [[ ! -r "$HOME/.zshrc.local" ]] || source "$HOME/.zshrc.local"
 

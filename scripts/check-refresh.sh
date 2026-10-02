@@ -83,7 +83,7 @@ DOTFILES_TARGET="$temporary/failure-home" bash "$repo/scripts/refresh.sh" restor
 [[ -f $temporary/failure-home/.config/nvim/init.lua && -f $temporary/failure-home/.cache/nvim/keep ]] || die 'Restore lost untouched files after a failed refresh.'
 
 mkdir -p "$temporary/bin" "$temporary/dry-home"
-for tool in brew git curl npm nvm nvim stow bat batcat deja sudo; do
+for tool in brew git curl npm nvm nvim stow bat batcat sudo; do
   # shellcheck disable=SC2016
   printf '#!/bin/sh\nprintf "Unexpected tool call: %%s\\n" "$0" >&2\nexit 99\n' >"$temporary/bin/$tool"
   chmod +x "$temporary/bin/$tool"
