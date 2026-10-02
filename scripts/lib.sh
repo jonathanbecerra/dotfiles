@@ -24,6 +24,30 @@ run() {
   fi
 }
 
+apt_locks_available() {
+  local lock
+  for lock in /var/lib/dpkg/lock-frontend /var/lib/dpkg/lock /var/lib/apt/lists/lock /var/cache/apt/archives/lock; do
+    [[ -e $lock ]] || continue
+    if command -v fuser >/dev/null; then
+      sudo fuser "$lock" >/dev/null 2>&1 && return 1
+    elif ! sudo flock -n "$lock" -c true 2>/dev/null; then
+      return 1
+    fi
+  done
+}
+
+wait_for_apt() {
+  local attempt
+  [[ ${DRY_RUN:-0} == 1 ]] && return 0
+  command -v sudo >/dev/null || die 'Install sudo before installing Linux dotfiles.'
+  for ((attempt = 1; attempt <= 60; attempt++)); do
+    apt_locks_available && return 0
+    ((attempt == 1)) && printf 'Waiting for another apt process to finish...\n'
+    sleep 2
+  done
+  die 'APT is still busy after 120 seconds. Check the process holding the apt or dpkg lock, then retry.'
+}
+
 time_sync_service() {
   local service
   for service in systemd-timesyncd chrony chronyd ntpsec ntp openntpd; do
@@ -37,8 +61,10 @@ time_sync_service() {
 ensure_time_sync() {
   local synchronized attempt service
   [[ ${TIME_SYNC_READY:-0} == 1 ]] && return 0
-  command -v timedatectl >/dev/null || die 'Install systemd before installing Linux dotfiles.'
-  command -v systemctl >/dev/null || die 'Install systemd before installing Linux dotfiles.'
+  if [[ ${DRY_RUN:-0} != 1 ]]; then
+    command -v timedatectl >/dev/null || die 'Install systemd before installing Linux dotfiles.'
+    command -v systemctl >/dev/null || die 'Install systemd before installing Linux dotfiles.'
+  fi
   synchronized=$(timedatectl show -p NTPSynchronized --value 2>/dev/null || true)
   if [[ $synchronized == yes ]]; then
     TIME_SYNC_READY=1

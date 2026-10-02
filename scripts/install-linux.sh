@@ -104,6 +104,7 @@ EOF
 
 read_apt_packages
 ensure_time_sync
+wait_for_apt
 if [[ ${DRY_RUN:-0} == 1 ]]; then
   run sudo apt-get update
   run sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends "${apt_packages[@]}"
@@ -114,6 +115,7 @@ fi
 command -v sudo >/dev/null || die 'Install sudo before installing Linux dotfiles.'
 command -v apt-get >/dev/null || die 'This Linux host needs apt-get.'
 run sudo apt-get update
+wait_for_apt
 run sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends "${apt_packages[@]}"
 
 temporary=$(mktemp -d)
