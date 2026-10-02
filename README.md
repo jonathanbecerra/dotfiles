@@ -1,98 +1,65 @@
 # Dotfiles
 
-This directory is the portable user environment. It owns shell, Git, tmux,
-Neovim, terminal, and CLI configuration, plus the tools needed by those
-configs. It is separate from the VPS setup: it does not configure users, SSH,
-firewalls, Docker, or services.
+A small shell and editor setup for macOS and Linux. It gives both machines the
+same Rose Pine look, aliases, Git config, tmux, Neovim, and CLI tools.
 
-Keep this checkout in a permanent location. Stow creates live links from it
-into `$HOME`, so deleting or replacing the checkout breaks the linked files.
-The directory can be copied into its own repository and used there without
-the rest of the VPS project.
-
-## The normal order
-
-Run these commands from this directory:
+## Quick start
 
 ```sh
-DRY_RUN=1 make install   # preview
-make install             # install tools and link configs
-exec env -u ZDOTDIR zsh -l
-```
-
-The first command is optional but useful on a new machine. `make install`
-installs the declared tools, pinned NVM and Node version, Neovim plugins, and
-shell plugins, then links the configs with Stow. It never removes packages.
-Existing Stow conflicts stop the install instead of overwriting files.
-
-On Linux, `make install` reads `apt/packages.txt` and installs the pinned
-releases in `apt/binaries.tsv` into `~/.local/bin` using `sudo`. It needs an
-apt-based system, sudo, and an internet connection. The VPS host manifest in
-the parent repository is separate. On macOS, install Homebrew and the Command
-Line Tools; `brew/Brewfile` supplies the user tools there.
-
-## Moving an existing machine to these files
-
-Use a fresh terminal outside tmux and keep the old checkout until the move is
-complete:
-
-```sh
-make refresh                 # preview paths that will move
-make refresh action=apply   # make a timestamped backup and move them
+git clone git@github.com:jonathanbecerra/dotfiles.git
+cd dotfiles
 make install
 exec env -u ZDOTDIR zsh -l
 ```
 
-Refresh stores the backup under
-`~/.local/state/dotfiles/backups/`. It covers old shell startup files,
-managed configs, and Neovim data, state, and cache. It leaves SSH keys, shell
-history, GPG keys, existing Node versions, and unrelated configs alone. A
-custom path can be added explicitly:
+`make install` installs the tools declared here and links the configs into your
+home directory with Stow. On macOS it uses Homebrew; on Linux it uses apt and
+the pinned local binaries. Node is managed by NVM, and Neovim loads its
+plugins on the first start.
+
+If the tools are already installed, just link the configs:
 
 ```sh
-make refresh paths=/path/to/old-shell-paths.txt
-make refresh action=apply paths=/path/to/old-shell-paths.txt
+make stow
 ```
 
-Old shell files are never sourced to discover paths.
+Stow stops when an existing file would be overwritten. Move that file aside or
+run `make refresh` first.
 
-If `~/.config` is a symlink into an older checkout, refresh backs up that link,
-creates a real directory, and keeps unrelated entries linked to their old
-locations. Keep the old checkout until those links are no longer needed.
+## Moving an existing machine
 
-## Undo a refresh
-
-Use the exact backup path printed by refresh:
+Keep the old setup until you have checked the new shell. First preview the
+paths, then apply the move:
 
 ```sh
-make restore backup=/path/printed/by/refresh
+make refresh
+make refresh action=apply
+make install
 exec env -u ZDOTDIR zsh -l
 ```
 
-Restore saves any replacement files before putting the old files back. It
-restores configuration only; it does not change installed package versions.
-
-## Optional commands
+The refresh makes a timestamped backup under
+`~/.local/state/dotfiles/backups/`. Undo it with the backup path it prints:
 
 ```sh
-make stow                    # link configs only
-make check                   # validate links, scripts, and refresh/restore
-make prune-brew              # preview Homebrew removals
-make prune-brew action=apply # save a Brewfile snapshot, then remove unlisted items
+make restore backup=/path/to/backup
 ```
 
-`make prune-brew` is only for a machine that should match the shared
-`brew/Brewfile`. Put work-only packages in
-`~/.config/dotfiles/Brewfile.local` first. `make install` does not prune.
+It only handles managed shell, editor, and CLI paths. SSH keys, history, GPG
+keys, existing Node versions, and unrelated config stay where they are.
 
-## Local settings
+## Useful commands
 
-Rosé Pine is shared across the configs. The shell uses Powerlevel10k;
-Neovim uses lazy.nvim; `mat` opens Glow with the bundled theme. Keep machine
-or work settings in `~/.zshrc.local`, `~/.tmux.conf.local`,
-`~/.config/nvim-local.lua`, and local Git configuration. Do not put identities,
-tokens, or other credentials in this directory.
+```sh
+make check                    # validate the checkout
+make prune-brew               # preview Homebrew cleanup
+make prune-brew action=apply  # save a Brewfile snapshot, then clean up
+```
 
-Use `DRY_RUN=1 make <target>` to preview any supported target. The VPS
-repository calls these same entry points through its `make *-dotfiles`
-wrappers.
+Put work-only Homebrew packages in `~/.config/dotfiles/Brewfile.local` before
+pruning. Keep machine-specific settings in `.zshrc.local`,
+`.tmux.conf.local`, `~/.config/nvim-local.lua`, and local Git config. Never
+commit credentials or tokens here.
+
+`DRY_RUN=1 make <target>` previews supported commands. This repository can be
+used on its own or as the `dotfiles/` submodule in the VPS project.
