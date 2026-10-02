@@ -1,5 +1,6 @@
 bat
 eza
+fastfetch
 git
 glow
 kitty
