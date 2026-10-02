@@ -24,26 +24,40 @@ run() {
   fi
 }
 
+time_sync_service() {
+  local service
+  for service in systemd-timesyncd chrony chronyd ntpsec ntp openntpd; do
+    [[ $(systemctl show -p LoadState --value "$service.service" 2>/dev/null) == loaded ]] || continue
+    printf '%s\n' "$service"
+    return 0
+  done
+  return 1
+}
+
 ensure_time_sync() {
-  local synchronized attempt
+  local synchronized attempt service
   [[ ${TIME_SYNC_READY:-0} == 1 ]] && return 0
   command -v timedatectl >/dev/null || die 'Install systemd before installing Linux dotfiles.'
+  command -v systemctl >/dev/null || die 'Install systemd before installing Linux dotfiles.'
   synchronized=$(timedatectl show -p NTPSynchronized --value 2>/dev/null || true)
   if [[ $synchronized == yes ]]; then
     TIME_SYNC_READY=1
     return 0
   fi
+  service=$(time_sync_service || true)
+  if [[ -z $service && ${DRY_RUN:-0} != 1 ]]; then
+    die 'No NTP service is installed. Install systemd-timesyncd or chrony, then retry the Linux install.'
+  fi
+  service=${service:-systemd-timesyncd}
   if [[ ${DRY_RUN:-0} == 1 ]]; then
-    run sudo timedatectl set-ntp true
-    run sudo systemctl enable --now systemd-timesyncd
-    run sudo systemctl restart systemd-timesyncd
+    run sudo systemctl enable --now "$service"
+    run sudo systemctl restart "$service"
     TIME_SYNC_READY=1
     return 0
   fi
   command -v sudo >/dev/null || die 'Install sudo before installing Linux dotfiles.'
-  run sudo timedatectl set-ntp true
-  run sudo systemctl enable --now systemd-timesyncd
-  run sudo systemctl restart systemd-timesyncd
+  run sudo systemctl enable --now "$service"
+  run sudo systemctl restart "$service"
   attempt=0
   while ((attempt < 15)); do
     attempt=$((attempt + 1))
@@ -54,7 +68,7 @@ ensure_time_sync() {
     fi
     sleep 2
   done
-  die 'Linux time is not synchronized. Run make sync-time in the VPS checkout and check timedatectl status.'
+  die "Linux time is not synchronized. Check $service, then retry the install."
 }
 
 require_user() {
