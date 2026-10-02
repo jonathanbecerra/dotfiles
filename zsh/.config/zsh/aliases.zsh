@@ -14,6 +14,7 @@ if (( $+commands[eza] )); then
   alias la='eza -a --icons=auto --group-directories-first'
 fi
 alias cat="bat"
+alias ff='fastfetch'
 alias vi='nvim'
 alias vim='nvim'
 alias lg='lazygit'

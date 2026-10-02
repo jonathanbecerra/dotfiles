@@ -10,6 +10,7 @@ coreutils
 curl
 direnv
 fd-find
+fastfetch
 fontconfig
 fzf
 git
