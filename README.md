@@ -14,8 +14,9 @@ exec env -u ZDOTDIR zsh -l
 
 `make install` installs the tools declared here and links the configs into your
 home directory with Stow. On macOS it uses Homebrew; on Linux it uses apt and
-the pinned local binaries. Node is managed by NVM, and Neovim loads its
-plugins on the first start.
+the pinned local binaries. Linux installs also make sure the system clock is
+synchronized before contacting apt. Node is managed by NVM, and Neovim loads
+its plugins on the first start.
 
 If the tools are already installed, just link the configs:
 

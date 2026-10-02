@@ -24,6 +24,39 @@ run() {
   fi
 }
 
+ensure_time_sync() {
+  local synchronized attempt
+  [[ ${TIME_SYNC_READY:-0} == 1 ]] && return 0
+  command -v timedatectl >/dev/null || die 'Install systemd before installing Linux dotfiles.'
+  synchronized=$(timedatectl show -p NTPSynchronized --value 2>/dev/null || true)
+  if [[ $synchronized == yes ]]; then
+    TIME_SYNC_READY=1
+    return 0
+  fi
+  if [[ ${DRY_RUN:-0} == 1 ]]; then
+    run sudo timedatectl set-ntp true
+    run sudo systemctl enable --now systemd-timesyncd
+    run sudo systemctl restart systemd-timesyncd
+    TIME_SYNC_READY=1
+    return 0
+  fi
+  command -v sudo >/dev/null || die 'Install sudo before installing Linux dotfiles.'
+  run sudo timedatectl set-ntp true
+  run sudo systemctl enable --now systemd-timesyncd
+  run sudo systemctl restart systemd-timesyncd
+  attempt=0
+  while ((attempt < 15)); do
+    attempt=$((attempt + 1))
+    synchronized=$(timedatectl show -p NTPSynchronized --value 2>/dev/null || true)
+    if [[ $synchronized == yes ]]; then
+      TIME_SYNC_READY=1
+      return 0
+    fi
+    sleep 2
+  done
+  die 'Linux time is not synchronized. Run make sync-time in the VPS checkout and check timedatectl status.'
+}
+
 require_user() {
   [[ $EUID != 0 || ${DRY_RUN:-0} == 1 ]] || die 'Run as your user, without sudo.'
 }

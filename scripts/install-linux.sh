@@ -103,6 +103,7 @@ EOF
 }
 
 read_apt_packages
+ensure_time_sync
 if [[ ${DRY_RUN:-0} == 1 ]]; then
   run sudo apt-get update
   run sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends "${apt_packages[@]}"
