@@ -9,7 +9,7 @@ same Rose Pine look, aliases, Git config, tmux, Neovim, and CLI tools.
 git clone git@github.com:jonathanbecerra/dotfiles.git
 cd dotfiles
 make install
-exec env -u ZDOTDIR zsh -l
+make reload-zsh
 ```
 
 `make install` installs the tools declared here and links the configs into your
@@ -36,7 +36,7 @@ paths, then apply the move:
 make refresh
 make refresh action=apply
 make install
-exec env -u ZDOTDIR zsh -l
+make reload-zsh
 ```
 
 The refresh makes a timestamped backup under

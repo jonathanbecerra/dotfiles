@@ -1,10 +1,11 @@
 .DEFAULT_GOAL := help
 export DRY_RUN DOTFILES_TARGET
-.PHONY: help install stow refresh restore prune-brew check
+.PHONY: help install reload-zsh stow refresh restore prune-brew check
 
 help:
 	@printf '%s\n' \
 	  'make install                    Install tools and link configs' \
+	  'make reload-zsh                 Start a fresh login shell' \
 	  'make refresh                    Preview an existing-machine reset' \
 	  'make refresh action=apply       Back up old config, then reset it' \
 	  'make restore backup=/path       Undo a refresh from its backup' \
@@ -16,6 +17,9 @@ help:
 
 install:
 	@bash scripts/install.sh
+
+reload-zsh:
+	@exec env -u ZDOTDIR zsh -l
 
 stow:
 	@bash scripts/stow.sh

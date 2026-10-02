@@ -15,6 +15,7 @@ if (( $+commands[eza] )); then
 fi
 alias cat="bat"
 alias ff='fastfetch'
+alias reload-zsh='exec env -u ZDOTDIR zsh -l'
 alias vi='nvim'
 alias vim='nvim'
 alias lg='lazygit'
