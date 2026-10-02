@@ -36,6 +36,16 @@ apt_locks_available() {
   done
 }
 
+apt_lock_holders() {
+  local lock holders
+  command -v fuser >/dev/null || return 0
+  for lock in /var/lib/dpkg/lock-frontend /var/lib/dpkg/lock /var/lib/apt/lists/lock /var/cache/apt/archives/lock; do
+    [[ -e $lock ]] || continue
+    holders=$(sudo fuser "$lock" 2>/dev/null || true)
+    [[ -z $holders ]] || printf '  %s held by:%s\n' "$lock" "$holders"
+  done
+}
+
 wait_for_apt() {
   local attempt
   [[ ${DRY_RUN:-0} == 1 ]] && return 0
@@ -43,6 +53,10 @@ wait_for_apt() {
   for ((attempt = 1; attempt <= 60; attempt++)); do
     apt_locks_available && return 0
     ((attempt == 1)) && printf 'Waiting for another apt process to finish...\n'
+    if ((attempt > 1 && attempt % 10 == 0)); then
+      printf 'Still waiting (%ss).\n' "$((attempt * 2))"
+      apt_lock_holders
+    fi
     sleep 2
   done
   die 'APT is still busy after 120 seconds. Check the process holding the apt or dpkg lock, then retry.'
