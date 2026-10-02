@@ -16,7 +16,6 @@ fzf
 git
 git-delta
 gnupg
-inetutils
 jq
 less
 lsof
