@@ -14,3 +14,18 @@
 .local/share/nvim
 .local/state/nvim
 .cache/nvim
+# Legacy dotfiles and terminal paths removed by the current setup.
+.tmux
+.zsh-autosuggestions
+.zsh-bat
+.zsh-syntax-highlighting
+fonts
+packages
+install.sh
+.railway
+.config/kitty
+.config/opencode
+.config/starship.toml
+.config/superfile
+Library/Application Support/com.mitchellh.ghostty/config
+Library/Application Support/com.mitchellh.ghostty/config.ghostty

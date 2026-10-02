@@ -30,7 +30,7 @@ case $action in
     if [[ ${DRY_RUN:-0} == 1 ]]; then
       run brew bundle dump --force --file="$backup_root/<snapshot>/Brewfile"
     else
-      brew bundle check --file="$brewfile" || die 'Run make install before pruning Brew.'
+      brew bundle check --no-upgrade --file="$brewfile" || die 'Run make install before pruning Brew.'
       new_backup
       brew bundle dump --force --file="$backup_dir/Brewfile"
     fi

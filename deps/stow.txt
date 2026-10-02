@@ -3,7 +3,7 @@ eza
 fastfetch
 git
 glow
-kitty
+ghostty
 lazydocker
 lazygit
 nvim

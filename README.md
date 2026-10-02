@@ -1,7 +1,7 @@
 # Dotfiles
 
 A small shell and editor setup for macOS and Linux. It gives both machines the
-same Rose Pine look, aliases, Git config, tmux, Neovim, and CLI tools.
+same Rose Pine look, Ghostty, aliases, Git config, tmux, Neovim, and CLI tools.
 
 ## Quick start
 
@@ -12,11 +12,12 @@ make install
 ```
 
 `make install` installs the tools declared here and links the configs into your
-home directory with Stow. On macOS it uses Homebrew; on Linux it uses apt and
-the pinned local binaries. Linux installs also make sure the system clock is
-synchronized before contacting apt. Node is managed by NVM, and Neovim loads
-its plugins on the first start. The install reloads Zsh after Stow completes.
-Run `make reload-zsh` after later config-only changes.
+home directory with Stow. On macOS it uses Homebrew, including Ghostty and the
+JetBrains Mono Nerd Font; on Linux it uses apt and the pinned local binaries.
+Linux installs also make sure the system clock is synchronized before contacting
+apt. Node is managed by NVM, and Neovim loads its plugins on the first start.
+The install reloads Zsh after Stow completes. Run `make reload-zsh` after later
+config-only changes.
 
 If the tools are already installed, just link the configs:
 
