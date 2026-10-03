@@ -44,6 +44,7 @@ brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
 cask "font-jetbrains-mono-nerd-font"
 cask "ghostty"
+cask "visual-studio-code"
 
 # Keep work-specific dependencies out of the shared dotfiles repository.
 local_file = File.join(ENV.fetch("HOME"), ".config/dotfiles/Brewfile.local")

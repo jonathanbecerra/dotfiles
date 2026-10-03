@@ -38,7 +38,22 @@ glow() {
 }
 mat() { glow "$@"; }
 alias tms='bash "$HOME/.config/tmux/choose-session.sh"'
-alias fzfc='fzf | xclip -selection clipboard'
+fzfc() {
+  local clipboard
+  if [[ $OSTYPE == darwin* ]]; then
+    clipboard=(pbcopy)
+  elif (( $+commands[wl-copy] )); then
+    clipboard=(wl-copy)
+  elif (( $+commands[xclip] )); then
+    clipboard=(xclip -selection clipboard)
+  elif (( $+commands[xsel] )); then
+    clipboard=(xsel --clipboard --input)
+  else
+    print -u2 'fzfc: no clipboard command found (pbcopy, wl-copy, xclip, or xsel)'
+    return 1
+  fi
+  fzf | "${clipboard[@]}"
+}
 (( $+commands[bat] )) || { (( $+commands[batcat] )) && alias bat='batcat'; }
 (( $+commands[bat] || $+commands[batcat] )) && alias cat='bat'
 (( $+commands[fd] )) || { (( $+commands[fdfind] )) && alias fd='fdfind'; }

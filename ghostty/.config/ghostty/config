@@ -1,7 +1,7 @@
 # Rose Pine with the same JetBrains Mono Nerd Font used by the VPS.
 theme = Rose Pine
 font-family = JetBrainsMono Nerd Font Mono
-font-size = 16
+font-size = 14
 
 # Keep JetBrains Mono ligatures enabled.
 cursor-style = block
