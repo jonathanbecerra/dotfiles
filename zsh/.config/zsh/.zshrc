@@ -12,7 +12,7 @@ fi
 umask 077
 
 # Exports
-export EDITOR=nvim VISUAL=nvim
+export EDITOR=nvim VISUAL=nvim SUDO_EDITOR=nvim
 export BAT_THEME="Rosé Pine"
 export EZA_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/eza"
 export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/.ripgreprc"
