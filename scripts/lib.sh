@@ -4,15 +4,27 @@ DOTFILES_ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)
 target_dir=${DOTFILES_TARGET:-$HOME}
 backup_dir=
 umask 077
+# Shared by scripts that source this library.
+# shellcheck disable=SC2034
+C_RESET='' C_RED='' C_CYAN=''
+if [[ -t 1 && -z ${NO_COLOR+x} && ${TERM:-dumb} != dumb ]]; then
+  C_RESET=$'\033[0m'
+  C_RED=$'\033[31m'
+  # Used by scripts that source this library.
+  # shellcheck disable=SC2034
+  C_CYAN=$'\033[36m'
+fi
 
 die() {
-  printf 'Error: %s\n' "$*" >&2
+  printf '%sError:%s %s\n' "$C_RED" "$C_RESET" "$*" >&2
   exit 1
 }
 
 reset_terminal_input() {
   [[ -t 1 ]] || return 0
-  printf '\033[<u\033[=0;1u'
+  case ${TERM:-} in
+    xterm-ghostty | xterm-kitty) printf '\033[<u\033[=0;1u' ;;
+  esac
 }
 
 trap reset_terminal_input EXIT

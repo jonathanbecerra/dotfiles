@@ -20,8 +20,15 @@ if [[ ${DRY_RUN:-0} != 1 ]]; then
   done
   # shellcheck disable=SC2119
   read_packages
-  stow --simulate --restow --no-folding --dir="$DOTFILES_ROOT" --target="$target_dir" "${packages[@]}" ||
-    die 'Config conflicts found. Run make refresh, review the paths, then make refresh action=apply.'
+  if [[ -f $target_dir/.zshrc && ! -s $target_dir/.zshrc ]]; then
+    printf '%sRemoving empty .zshrc placeholder.%s\n' "$C_CYAN" "$C_RESET"
+    rm -- "$target_dir/.zshrc"
+  fi
+  if ! stow --simulate --restow --no-folding --dir="$DOTFILES_ROOT" --target="$target_dir" "${packages[@]}"; then
+    printf '%sConfig conflicts found.%s\n' "$C_RED" "$C_RESET" >&2
+    printf '%sRun:%s\n\tmake refresh\n\tmake refresh action=apply\n' "$C_CYAN" "$C_RESET" >&2
+    exit 1
+  fi
 fi
 export XDG_CONFIG_HOME="$target_dir/.config" XDG_DATA_HOME="$target_dir/.local/share"
 export XDG_STATE_HOME="$target_dir/.local/state" XDG_CACHE_HOME="$target_dir/.cache"

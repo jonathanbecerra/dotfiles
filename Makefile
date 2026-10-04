@@ -19,7 +19,7 @@ install:
 	@bash scripts/install.sh --reload-shell
 
 reload-zsh:
-	@printf '\033[<u\033[=0;1u'
+	@case "$$TERM" in xterm-ghostty|xterm-kitty) printf '\033[<u\033[=0;1u' ;; esac
 	@exec env -u ZDOTDIR zsh -l
 
 stow:

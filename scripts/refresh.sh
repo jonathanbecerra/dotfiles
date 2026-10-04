@@ -143,7 +143,7 @@ if [[ $action == apply && ${DRY_RUN:-0} != 1 ]]; then
     [[ $detach_config != yes || $relative != .config/* ]] || continue
     backup_path "$relative"
   done
-  printf 'Run make install from the dotfiles checkout. It reloads Zsh when it finishes.\n'
+  printf '%sRun:%s\n\tmake install\n' "$C_CYAN" "$C_RESET"
 else
   printf 'Preview only. Use refresh.sh apply to move these paths into a backup.\n'
 fi
