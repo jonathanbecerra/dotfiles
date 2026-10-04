@@ -47,9 +47,20 @@ mat() { glow "$@"; }
 # Tmux and clipboard
 alias tms='bash "$HOME/.config/tmux/choose-session.sh"'
 fzfc() {
-  local clipboard selected encoded
+  local clipboard selected encoded file finder
   if (( $# == 1 )) && [[ -f $1 ]]; then
-    selected=$(<"$1")
+    selected=$(fzf <"$1") || return
+  elif [[ -t 0 ]]; then
+    if (( $+commands[fd] )); then
+      finder=fd
+    elif (( $+commands[fdfind] )); then
+      finder=fdfind
+    else
+      print -u2 'fzfc: fd or fdfind is required when selecting a file'
+      return 1
+    fi
+    file=$("$finder" --type f --hidden --exclude .git . | fzf) || return
+    selected=$(<"$file")
   else
     selected=$(fzf "$@") || return
   fi
