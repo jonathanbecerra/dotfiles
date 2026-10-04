@@ -64,3 +64,7 @@ commit credentials or tokens here.
 
 `DRY_RUN=1 make <target>` previews supported commands. This repository can be
 used on its own or as the `dotfiles/` submodule in the VPS project.
+
+`fzfc` copies an fzf selection to the clipboard. Pass a file path to copy its
+full contents, for example `fzfc /etc/caddy/Caddyfile`. Over SSH it uses the
+terminal clipboard protocol when the terminal supports it.

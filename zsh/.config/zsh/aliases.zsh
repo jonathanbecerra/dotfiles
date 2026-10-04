@@ -47,7 +47,12 @@ mat() { glow "$@"; }
 # Tmux and clipboard
 alias tms='bash "$HOME/.config/tmux/choose-session.sh"'
 fzfc() {
-  local clipboard
+  local clipboard selected encoded
+  if (( $# == 1 )) && [[ -f $1 ]]; then
+    selected=$(<"$1")
+  else
+    selected=$(fzf "$@") || return
+  fi
   if [[ $OSTYPE == darwin* ]]; then
     clipboard=(pbcopy)
   elif (( $+commands[wl-copy] )); then
@@ -56,11 +61,19 @@ fzfc() {
     clipboard=(xclip -selection clipboard)
   elif (( $+commands[xsel] )); then
     clipboard=(xsel --clipboard --input)
+  elif [[ -n ${SSH_TTY:-} && $+commands[base64] ]]; then
+    encoded=$(print -rn -- "$selected" | base64 | tr -d '\n')
+    if [[ -n ${TMUX:-} ]]; then
+      printf '\033Ptmux;\033\033]52;c;%s\a\033\\' "$encoded"
+    else
+      printf '\033]52;c;%s\a' "$encoded"
+    fi
+    return
   else
-    print -u2 'fzfc: no clipboard command found (pbcopy, wl-copy, xclip, or xsel)'
+    print -u2 'fzfc: no clipboard command found and no SSH terminal clipboard is available'
     return 1
   fi
-  fzf | "${clipboard[@]}"
+  print -rn -- "$selected" | "${clipboard[@]}"
 }
 
 # Platform compatibility
