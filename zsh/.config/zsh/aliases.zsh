@@ -37,6 +37,84 @@ if (( $+commands[docker-compose] )); then
 else
   alias dc='docker compose'
 fi
+alias dps='docker ps'
+alias dpsa='docker ps -a'
+alias dcup='docker compose up -d'
+alias dcdown='docker compose down'
+alias dcrs='docker compose restart'
+alias dcps='docker compose ps'
+dlogs() {
+  local container=${1:-}
+  [[ -n $container ]] || { print -u2 'Usage: dlogs <container> [tail]'; return 2; }
+  docker logs --tail "${2:-100}" --follow "$container"
+}
+dpt() {
+  if (( $# )); then
+    docker port "$1"
+  else
+    docker ps --format $'table {{.Names}}\t{{.Ports}}'
+  fi
+}
+dst() {
+  docker stats --no-stream --format $'table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}\t{{.NetIO}}\t{{.BlockIO}}'
+}
+dstall() {
+  local -a containers
+  containers=(${(@f)$(docker ps -q)})
+  if (( ! ${#containers[@]} )); then
+    print 'No running containers.'
+    return 0
+  fi
+  docker stop "${containers[@]}"
+}
+dts() {
+  local container=${1:-} image reply volume
+  local -a volumes
+  [[ -n $container ]] || { print -u2 'Usage: dts <container>'; return 2; }
+  image=$(docker inspect --format '{{.Image}}' "$container") || return
+  volumes=(${(@f)$(docker inspect --format '{{range .Mounts}}{{if eq .Type "volume"}}{{.Name}}{{"\n"}}{{end}}{{end}}' "$container")})
+  print "Container: $container"
+  print "Image: $image"
+  if (( ${#volumes[@]} )); then
+    print 'Volumes:'
+    printf '  %s\n' "${volumes[@]}"
+  else
+    print 'Volumes: none'
+  fi
+  print 'Networks are preserved.'
+  if ! read -q "reply?Remove this container, its image, and unused attached volumes? [y/N] "; then
+    print
+    print 'Cancelled.'
+    return 1
+  fi
+  print
+  docker rm -f "$container" || return
+  for volume in "${volumes[@]}"; do
+    if [[ -n $(docker ps -aq --filter "volume=$volume") ]]; then
+      print "Keeping shared volume: $volume"
+    else
+      docker volume rm "$volume" || print "Could not remove volume: $volume"
+    fi
+  done
+  if [[ -z $(docker ps -aq --filter "ancestor=$image") ]]; then
+    docker image rm "$image" || print "Could not remove image: $image"
+  else
+    print "Keeping image used by another container: $image"
+  fi
+}
+dtd() {
+  local reply
+  print 'This stops all containers and removes unused containers, images, volumes, networks, and build cache.'
+  print 'This affects every Docker project on this host.'
+  if ! read -q "reply?Continue with the global Docker teardown? [y/N] "; then
+    print
+    print 'Cancelled.'
+    return 1
+  fi
+  print
+  dstall || return
+  docker system prune --all --volumes
+}
 
 # Markdown
 glow() {
@@ -91,3 +169,4 @@ fzfc() {
 (( $+commands[bat] )) || { (( $+commands[batcat] )) && alias bat='batcat'; }
 (( $+commands[bat] || $+commands[batcat] )) && alias cat='bat'
 (( $+commands[fd] )) || { (( $+commands[fdfind] )) && alias fd='fdfind'; }
+(( $+commands[rg] )) && alias grep='rg'

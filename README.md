@@ -57,6 +57,23 @@ make prune-brew               # preview Homebrew cleanup
 make prune-brew action=apply  # save a Brewfile snapshot, then clean up
 ```
 
+The Docker aliases work from a Compose project directory:
+
+| Command | Purpose |
+| --- | --- |
+| `dps`, `dpsa` | List running or all containers |
+| `dcup`, `dcdown`, `dcrs`, `dcps` | Start, stop, restart, or inspect the current Compose project |
+| `dlogs <container>` | Follow the last 100 log lines |
+| `dpt [container]` | Show published ports |
+| `dst` | Show one Docker resource snapshot |
+| `dstall` | Stop every running container |
+| `dts <container>` | Confirmed removal of one container and unused attached data |
+| `dtd` | Confirmed removal of all unused Docker data |
+
+`grep` points to `rg` when it is installed. This is for interactive shell use;
+repository scripts keep explicit `grep` commands because `rg` searches
+recursively, respects `.gitignore`, and does not share every flag.
+
 Put work-only Homebrew packages in `~/.config/dotfiles/Brewfile.local` before
 pruning. Keep machine-specific settings in `.zshrc.local`,
 `.tmux.conf.local`, `~/.config/nvim-local.lua`, and local Git config. Never
