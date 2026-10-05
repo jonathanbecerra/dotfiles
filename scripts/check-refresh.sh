@@ -18,6 +18,11 @@ printf 'old editor\n' >"$DOTFILES_TARGET/.config/nvim/init.lua"
 printf 'old plugin\n' >"$DOTFILES_TARGET/.local/share/nvim/plugin"
 printf 'keep\n' >"$DOTFILES_TARGET/.config/unrelated/config"
 printf 'private\n' >"$DOTFILES_TARGET/.ssh/key"
+for path in .zshrc.local .tmux.conf.local .config/nvim-local.lua install.sh; do
+  printf 'local customization\n' >"$DOTFILES_TARGET/$path"
+done
+mkdir -p "$DOTFILES_TARGET/packages" "$DOTFILES_TARGET/fonts" "$DOTFILES_TARGET/.railway"
+printf 'project file\n' >"$DOTFILES_TARGET/packages/keep"
 printf 'shell\n' >"$temporary/old-zshrc"
 ln -s "$temporary/old-zshrc" "$DOTFILES_TARGET/.zshrc"
 ln -s "$temporary/missing" "$DOTFILES_TARGET/.zprofile"
@@ -30,6 +35,10 @@ saved_dir=$(printf '%s\n' "$log" | sed -n 's/^Backup: //p')
 [[ -f $saved_dir/files/.config/nvim/init.lua && ! -e $DOTFILES_TARGET/.config/nvim ]] || die 'Refresh did not archive Neovim.'
 [[ -L $saved_dir/files/.zprofile && -f $temporary/old-zshrc ]] || die 'Refresh followed a symlink.'
 [[ -f $DOTFILES_TARGET/.ssh/key && -f $DOTFILES_TARGET/.config/unrelated/config ]] || die 'Refresh touched unrelated files.'
+for path in .zshrc.local .tmux.conf.local .config/nvim-local.lua install.sh packages/keep; do
+  [[ -f $DOTFILES_TARGET/$path ]] || die "Refresh moved an unmanaged path: $path"
+done
+[[ -d $DOTFILES_TARGET/fonts && -d $DOTFILES_TARGET/.railway ]] || die 'Refresh moved unrelated directories.'
 bash "$repo/scripts/refresh.sh" apply >/dev/null
 bash "$repo/scripts/stow.sh" >/dev/null 2>&1
 bash "$repo/scripts/stow.sh" >/dev/null 2>&1

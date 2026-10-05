@@ -145,5 +145,5 @@ if [[ $action == apply && ${DRY_RUN:-0} != 1 ]]; then
   done
   printf '%sRun:%s\n\tmake install\n' "$C_CYAN" "$C_RESET"
 else
-  printf 'Preview only. Use refresh.sh apply to move these paths into a backup.\n'
+  printf '%sPreview only. To back up these paths:%s\n\tmake refresh action=apply\n' "$C_CYAN" "$C_RESET"
 fi

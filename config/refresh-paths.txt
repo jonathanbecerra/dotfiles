@@ -4,13 +4,10 @@
 .zprofile
 .zlogin
 .zlogout
-.zshrc.local
 .oh-my-zsh
 .zprezto
 .zinit
 .local/share/zinit
-.tmux.conf.local
-.config/nvim-local.lua
 .local/share/nvim
 .local/state/nvim
 .cache/nvim
@@ -19,13 +16,7 @@
 .zsh-autosuggestions
 .zsh-bat
 .zsh-syntax-highlighting
-fonts
-packages
-install.sh
-.railway
 .config/kitty
-.config/opencode
 .config/starship.toml
-.config/superfile
 Library/Application Support/com.mitchellh.ghostty/config
 Library/Application Support/com.mitchellh.ghostty/config.ghostty
