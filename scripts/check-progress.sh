@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+export NO_COLOR=1
 # shellcheck source=scripts/lib.sh
 source "$(dirname -- "${BASH_SOURCE[0]}")/lib.sh"
 temporary=$(mktemp -d)
@@ -36,7 +37,7 @@ sudo() {
   esac
 }
 authorize_sudo >"$temporary/auth"
-grep -q 'Dotfiles needs sudo' "$temporary/auth" || die 'Sudo prompt has no explanation.'
+grep -q '^Dotfiles needs sudo' "$temporary/auth" || die 'Sudo explanation is missing or indented.'
 [[ $(tail -n 1 "$temporary/auth") == password-prompt ]] || die 'Explanation did not precede sudo authentication.'
 sudo() { [[ $* == '-n -v' ]]; }
 authorize_sudo >"$temporary/auth"

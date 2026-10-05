@@ -90,7 +90,7 @@ authorize_sudo() {
   [[ ${DRY_RUN:-0} != 1 ]] || return 0
   command -v sudo >/dev/null || die 'Install sudo before installing Linux dotfiles.'
   if ! sudo -n -v 2>/dev/null; then
-    printf '\n%s  Dotfiles needs sudo for Ubuntu tools and time synchronization.%s\n' "$C_CYAN" "$C_RESET"
+    printf '\n%sDotfiles needs sudo for Ubuntu tools and time synchronization.%s\n' "$C_CYAN" "$C_RESET"
     sudo -v
   fi
 }
