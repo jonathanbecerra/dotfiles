@@ -1,37 +1,29 @@
 # Dotfiles
 
-A small shell and editor setup for macOS and Linux. It gives both machines the
-same Rose Pine look, Ghostty, aliases, Git config, tmux, Neovim, and CLI tools.
+Shell, editor, and CLI setup for macOS and Ubuntu. Stow links the configs;
+Homebrew or apt installs tools. Linux binaries, Node, pnpm, and editor
+dependencies have pinned versions.
 
-## Quick start
+## Install
+
+The reviewed changes are on `develop` while being tested.
 
 ```sh
-git clone git@github.com:jonathanbecerra/dotfiles.git
+git clone --branch develop https://github.com/jonathanbecerra/dotfiles.git
 cd dotfiles
 make install
 ```
 
-`make install` installs the tools declared here and links the configs into your
-home directory with Stow. On macOS it uses Homebrew, including Ghostty and the
-JetBrains Mono Nerd Font; on Linux it uses apt and the pinned local binaries.
-Linux installs also make sure the system clock is synchronized before contacting
-apt. Node is managed by NVM, and Neovim loads its plugins on the first start.
-The install reloads Zsh after Stow completes. Run `make reload-zsh` after later
-config-only changes.
+Run as your normal user. Installation asks for sudo when needed, checks
+time synchronization on Linux, and reloads Zsh when finished. VPS guided
+setup calls the same installer for its selected admin.
 
-If the tools are already installed, just link the configs:
+If tools are already installed, use `make stow` to link configs only.
 
-```sh
-make stow
-```
+### Existing configs
 
-Stow stops when an existing file would be overwritten. Move that file aside or
-run `make refresh` first.
-
-## Moving an existing machine
-
-Keep the old setup until you have checked the new shell. First preview the
-paths, then apply the move:
+Stow will not overwrite a conflicting file. Preview the reset, back up the
+listed paths, then install:
 
 ```sh
 make refresh
@@ -39,25 +31,49 @@ make refresh action=apply
 make install
 ```
 
-The refresh makes a timestamped backup under
-`~/.local/state/dotfiles/backups/`. Undo it with the backup path it prints:
+Backups go under `~/.local/state/dotfiles/backups/`. Restore with:
 
 ```sh
-make restore backup=/path/to/backup
+make restore backup=/path/printed/by/refresh
 ```
 
-It only handles managed shell, editor, and CLI paths. SSH keys, history, GPG
-keys, existing Node versions, and unrelated config stay where they are.
+Refresh handles managed configs and listed legacy shell/editor paths.
+It leaves SSH keys, history, GPG, existing Node versions, unrelated projects,
+and local overrides alone. Local overrides include `.zshrc.local`,
+`.tmux.conf.local`, and `~/.config/nvim-local.lua`.
 
-## Useful commands
+### Updates
+
+For a standalone clone:
 
 ```sh
-make check                    # validate the checkout
-make prune-brew               # preview Homebrew cleanup
-make prune-brew action=apply  # save a Brewfile snapshot, then clean up
+git pull --ff-only
+make install
 ```
 
-The Docker aliases work from a Compose project directory:
+For config-only changes, `make stow` and `make reload-zsh` are enough.
+When installed as a VPS submodule, update from the VPS root with
+`git submodule update --init --recursive`; VPS pins the dotfiles version.
+
+## Commands
+
+```sh
+define                 # list aliases
+define dpt             # print this alias/function/command definition
+make check             # local syntax, configuration, and regression checks
+make check-editor      # download pinned editor/plugins and test them in a temporary directory
+make prune-brew        # preview Homebrew cleanup
+make prune-brew action=apply
+```
+
+Put extra Homebrew packages in `~/.config/dotfiles/Brewfile.local` before
+pruning. Keep machine-specific Git settings in local Git config. Do not
+commit credentials or tokens.
+
+### Docker
+
+Only `dc*` commands depend on your current Compose directory. The other
+commands address the selected Docker daemon.
 
 | Command | Purpose |
 | --- | --- |
@@ -65,36 +81,53 @@ The Docker aliases work from a Compose project directory:
 | `dcup`, `dcdown`, `dcrs`, `dcps` | Start, stop, restart, or inspect the current Compose project |
 | `dlogs <container>` | Follow the last 100 log lines |
 | `dpt [container]` | Show published ports |
-| `dst` | Show one Docker resource snapshot |
-| `dstall` | Stop every running container |
-| `dts <container>` | Confirmed removal of one container and unused attached data |
-| `dtd` | Confirmed removal of all unused Docker data |
+| `dst` | Show a resource snapshot |
+| `dstall` | Stop all running containers |
+| `dts <container>` | Confirm removal of one container, its unused image and attached volumes; keep networks |
+| `dtd` | Confirm global teardown, including unused named volumes |
 
-Use `rg` explicitly for interactive project searches. Keep `grep` when you
-want its normal file or stdin behavior.
+`dtd` affects every project on the selected daemon. It stops containers,
+then prunes containers, images, build cache, unused networks, and named and
+anonymous volumes. Docker's built-in networks and bind-mounted host files
+remain. Deleted volume contents cannot be restored by dotfiles backups.
+
+### Search and copy
+
+`rg` is ripgrep's executable name. Neither `grep` nor `rgrep` is aliased.
 
 ```sh
-grep 'TODO' README.md       # Search one named file
-printf 'TODO\n' | grep TODO # Search stdin
-rg 'TODO'                  # Search the current directory recursively
-rg 'TODO' src              # Search only src/
-rg --no-ignore --hidden TODO . # Include ignored and hidden files
+grep 'TODO' README.md          # search this file
+printf 'TODO\n' | grep TODO    # filter stdin
+rg 'TODO'                     # search files under the current directory
+rg -n 'TODO' src               # search src/ recursively, with line numbers
+rg --no-ignore 'TODO' .        # also search ignored files
 ```
 
-`rg` respects `.gitignore` and skips hidden and binary files by default. Its
-options and regex behavior are not identical to `grep`, so use the command
-that matches the search scope you intend.
+Both can search a named file or stdin. The difference is their defaults:
+without a file or pipe, `grep` waits for stdin and `rg` searches the current
+directory. Ripgrep respects ignore files and normally skips hidden files.
+These dotfiles deliberately enable hidden-file searching while excluding
+`.git/`. Use `rg --no-config` for stock defaults. Flags and regex options
+also differ, so scripts should keep the command they were written for.
 
-Put work-only Homebrew packages in `~/.config/dotfiles/Brewfile.local` before
-pruning. Keep machine-specific settings in `.zshrc.local`,
-`.tmux.conf.local`, `~/.config/nvim-local.lua`, and local Git config. Never
-commit credentials or tokens here.
+`fzfc` uses fzf to choose what to copy:
 
-`DRY_RUN=1 make <target>` previews supported commands. This repository can be
-used on its own or as the `dotfiles/` submodule in the VPS project.
+```sh
+fzfc /etc/caddy/Caddyfile     # search the file's contents and copy a selected line
+cat /etc/caddy/Caddyfile | fzfc
+fzfc                        # search filenames, then copy the selected file's contents
+```
 
-`fzfc` keeps fzf's search behavior: with piped input it copies the selected
-content, with a file path it searches that file's contents, and with no input
-it searches files and copies the selected file's full contents. For example,
-run `fzfc /etc/caddy/Caddyfile` to search that file. Over SSH it uses the
-terminal clipboard protocol when the terminal supports it.
+Over SSH it uses OSC 52 when no local clipboard program is available. Your
+terminal must permit it.
+
+## Layout
+
+Stow packages such as `zsh/`, `nvim/`, and `git/` mirror their paths under
+your home directory. `scripts/` installs and checks them, `deps/` pins
+versions, and `apt/` and `brew/` declare platform dependencies.
+`config/refresh-paths.txt` lists legacy paths in addition to the managed
+Stow paths.
+
+`DRY_RUN=1 make <target>` previews supported commands. The repository works
+on its own or as the VPS project's `dotfiles/` submodule.
