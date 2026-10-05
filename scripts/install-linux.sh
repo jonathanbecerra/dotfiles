@@ -79,7 +79,7 @@ EOF
       jetbrains-mono)
         font_dir="$destination"
         install -d -m 0755 "$font_dir"
-        unzip -jo "$temporary/archive" 'JetBrainsMonoNerdFontMono-*.ttf' 'OFL.txt' -d "$font_dir"
+        unzip -joq "$temporary/archive" 'JetBrainsMonoNerdFontMono-*.ttf' 'OFL.txt' -d "$font_dir"
         chmod 0644 "$font_dir"/*
         command -v fc-cache >/dev/null && fc-cache -f "$font_dir"
         ;;
@@ -109,9 +109,9 @@ fi
 
 command -v sudo >/dev/null || die 'Install sudo before installing Linux dotfiles.'
 command -v apt-get >/dev/null || die 'This Linux host needs apt-get.'
-run sudo apt-get update
+progress 'Refresh Ubuntu tool packages' sudo apt-get update
 wait_for_apt
-run sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends "${apt_packages[@]}"
+progress 'Install Ubuntu tools' sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends "${apt_packages[@]}"
 
 temporary=$(mktemp -d)
 trap 'rm -rf -- "$temporary"' EXIT

@@ -44,6 +44,28 @@ run() {
   fi
 }
 
+# Keep commands in the foreground: sudo needs the terminal and NVM changes PATH.
+progress() {
+  local label=$1 log status started=$SECONDS
+  shift
+  if [[ ${DRY_RUN:-0} == 1 || ${DOTFILES_VERBOSE:-0} == 1 ]]; then
+    run "$@"
+    return
+  fi
+  printf '%s  › %s%s\n' "$C_CYAN" "$label" "$C_RESET"
+  log=$(mktemp)
+  if "$@" >"$log" 2>&1; then
+    rm -f -- "$log"
+    printf '  ✓ %s (%ss)\n' "$label" "$((SECONDS - started))"
+  else
+    status=$?
+    printf '%s  ✗ %s%s\n' "$C_RED" "$label" "$C_RESET" >&2
+    cat "$log" >&2
+    rm -f -- "$log"
+    return "$status"
+  fi
+}
+
 apt_locks_available() {
   local lock holders
   for lock in /var/lib/dpkg/lock-frontend /var/lib/dpkg/lock /var/lib/apt/lists/lock /var/cache/apt/archives/lock; do

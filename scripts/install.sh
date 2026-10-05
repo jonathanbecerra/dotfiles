@@ -63,23 +63,23 @@ if [[ ${DRY_RUN:-0} != 1 ]]; then
   # shellcheck source=/dev/null
   source "$NVM_DIR/nvm.sh" --no-use || die 'Could not load NVM.'
 fi
-run nvm install "$node_version" --skip-default-packages || die 'Node installation failed.'
-run nvm alias default "$node_version" || die 'Could not set the default Node version.'
+progress "Install Node $node_version" nvm install "$node_version" --skip-default-packages || die 'Node installation failed.'
+progress 'Set the default Node version' nvm alias default "$node_version" || die 'Could not set the default Node version.'
 run nvm use --silent "$node_version" || die 'Could not activate Node.'
 set -u
-run npm install --global "$pnpm_spec"
+progress "Install $pnpm_spec" npm install --global "$pnpm_spec"
 tools_dir="$XDG_DATA_HOME/nvim/tools"
 run mkdir -p "$tools_dir"
 run install -m 0644 "$DOTFILES_ROOT/deps/nvim/package.json" "$tools_dir/package.json"
 run install -m 0644 "$DOTFILES_ROOT/deps/nvim/package-lock.json" "$tools_dir/package-lock.json"
-run npm --prefix "$tools_dir" ci --no-audit --no-fund
+progress 'Install editor tools' npm --prefix "$tools_dir" ci --no-audit --no-fund
 bash "$DOTFILES_ROOT/scripts/stow.sh"
 if command -v bat >/dev/null; then
-  run bat cache --build
+  progress 'Build bat themes' bat cache --build
 elif command -v batcat >/dev/null; then
-  run batcat cache --build
+  progress 'Build bat themes' batcat cache --build
 fi
-run nvim --headless '+Lazy! restore' +qa
+progress 'Install Neovim plugins' nvim --headless '+Lazy! restore' +qa
 if [[ ${DRY_RUN:-0} == 1 ]]; then
   printf 'Preview complete. No tools or dotfiles were installed.\n'
 else
