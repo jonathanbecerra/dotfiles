@@ -20,4 +20,5 @@ jq -e . glow/.config/glow/styles/rose-pine.json nvim/.config/nvim/lazy-lock.json
   deps/nvim/package.json deps/nvim/package-lock.json >/dev/null
 git config --file git/.config/git/config --list >/dev/null
 bash scripts/check-refresh.sh
+zsh -f scripts/check-aliases.zsh
 printf 'Dotfiles checks passed.\n'

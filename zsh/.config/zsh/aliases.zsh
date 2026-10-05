@@ -17,13 +17,19 @@ if (( $+commands[eza] )); then
 fi
 
 # Editors and tools
-alias cat="bat"
 alias ff='fastfetch'
 alias zshr='exec env -u ZDOTDIR zsh -l'
 alias vi='nvim'
 alias vim='nvim'
 alias lg='lazygit'
 alias ld='lazydocker'
+define() {
+  if (( $# )); then
+    whence -f -- "$@"
+  else
+    alias
+  fi
+}
 if (( $+commands[lazydocker] )); then
   lazydocker() {
     local lazydocker_bin=${commands[lazydocker]}
@@ -39,27 +45,10 @@ else
 fi
 alias dps='docker ps'
 alias dpsa='docker ps -a'
-alias dcup='docker compose up -d'
-alias dcdown='docker compose down'
-alias dcrs='docker compose restart'
-alias dcps='docker compose ps'
-define() {
-  local name
-  if (( ! $# )); then
-    alias
-    return 0
-  fi
-  for name in "$@"; do
-    if (( $+aliases[$name] )); then
-      print -r -- "$name=${aliases[$name]}"
-    elif (( $+functions[$name] )); then
-      functions "$name"
-    else
-      print -u2 "No alias or function named: $name"
-      return 1
-    fi
-  done
-}
+alias dcup='dc up -d'
+alias dcdown='dc down'
+alias dcrs='dc restart'
+alias dcps='dc ps'
 dlogs() {
   local container=${1:-}
   [[ -n $container ]] || { print -u2 'Usage: dlogs <container> [tail]'; return 2; }
@@ -76,8 +65,10 @@ dst() {
   docker stats --no-stream --format $'table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}\t{{.NetIO}}\t{{.BlockIO}}'
 }
 dstall() {
+  local running
   local -a containers
-  containers=(${(@f)$(docker ps -q)})
+  running=$(docker ps -q) || return
+  containers=(${(@f)running})
   if (( ! ${#containers[@]} )); then
     print 'No running containers.'
     return 0
@@ -85,12 +76,14 @@ dstall() {
   docker stop "${containers[@]}"
 }
 dts() {
-  local container=${1:-} image reply volume
+  local container image reply volume mounts users
   local -a volumes
-  [[ -n $container ]] || { print -u2 'Usage: dts <container>'; return 2; }
-  image=$(docker inspect --format '{{.Image}}' "$container") || return
-  volumes=(${(@f)$(docker inspect --format '{{range .Mounts}}{{if eq .Type "volume"}}{{.Name}}{{"\n"}}{{end}}{{end}}' "$container")})
-  print "Container: $container"
+  (( $# == 1 )) || { print -u2 'Usage: dts <container>'; return 2; }
+  container=$(docker container inspect --format '{{.Id}}' -- "$1") || return
+  image=$(docker container inspect --format '{{.Image}}' "$container") || return
+  mounts=$(docker container inspect --format '{{range .Mounts}}{{if eq .Type "volume"}}{{.Name}}{{"\n"}}{{end}}{{end}}' "$container") || return
+  volumes=(${(u)${(@f)mounts}})
+  print "Container: $1 ($container)"
   print "Image: $image"
   if (( ${#volumes[@]} )); then
     print 'Volumes:'
@@ -107,22 +100,26 @@ dts() {
   print
   docker rm -f "$container" || return
   for volume in "${volumes[@]}"; do
-    if [[ -n $(docker ps -aq --filter "volume=$volume") ]]; then
+    users=$(docker ps -aq --filter "volume=$volume") || return
+    if [[ -n $users ]]; then
       print "Keeping shared volume: $volume"
     else
-      docker volume rm "$volume" || print "Could not remove volume: $volume"
+      docker volume rm "$volume" || return
     fi
   done
-  if [[ -z $(docker ps -aq --filter "ancestor=$image") ]]; then
-    docker image rm "$image" || print "Could not remove image: $image"
+  users=$(docker ps -aq --filter "ancestor=$image") || return
+  if [[ -z $users ]]; then
+    docker image rm "$image"
   else
     print "Keeping image used by another container: $image"
   fi
 }
 dtd() {
-  local reply
-  print 'This stops all containers and removes unused containers, images, volumes, networks, and build cache.'
-  print 'This affects every Docker project on this host.'
+  local reply context
+  context=$(docker context show) || return
+  print "Docker context: $context"
+  print 'This stops ALL containers and deletes unused containers, images, named/anonymous volumes, networks, and build cache.'
+  print 'Every Docker project in this context is affected. Bind-mounted host files are kept.'
   if ! read -q "reply?Continue with the global Docker teardown? [y/N] "; then
     print
     print 'Cancelled.'
@@ -130,7 +127,8 @@ dtd() {
   fi
   print
   dstall || return
-  docker system prune --all --volumes
+  docker system prune --all --force || return
+  docker volume prune --all --force
 }
 
 # Markdown
