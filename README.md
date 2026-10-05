@@ -70,9 +70,20 @@ The Docker aliases work from a Compose project directory:
 | `dts <container>` | Confirmed removal of one container and unused attached data |
 | `dtd` | Confirmed removal of all unused Docker data |
 
-`grep` points to `rg` when it is installed. This is for interactive shell use;
-repository scripts keep explicit `grep` commands because `rg` searches
-recursively, respects `.gitignore`, and does not share every flag.
+Use `rg` explicitly for interactive project searches. Keep `grep` when you
+want its normal file or stdin behavior.
+
+```sh
+grep 'TODO' README.md       # Search one named file
+printf 'TODO\n' | grep TODO # Search stdin
+rg 'TODO'                  # Search the current directory recursively
+rg 'TODO' src              # Search only src/
+rg --no-ignore --hidden TODO . # Include ignored and hidden files
+```
+
+`rg` respects `.gitignore` and skips hidden and binary files by default. Its
+options and regex behavior are not identical to `grep`, so use the command
+that matches the search scope you intend.
 
 Put work-only Homebrew packages in `~/.config/dotfiles/Brewfile.local` before
 pruning. Keep machine-specific settings in `.zshrc.local`,

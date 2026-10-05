@@ -43,6 +43,23 @@ alias dcup='docker compose up -d'
 alias dcdown='docker compose down'
 alias dcrs='docker compose restart'
 alias dcps='docker compose ps'
+define() {
+  local name
+  if (( ! $# )); then
+    alias
+    return 0
+  fi
+  for name in "$@"; do
+    if (( $+aliases[$name] )); then
+      print -r -- "$name=${aliases[$name]}"
+    elif (( $+functions[$name] )); then
+      functions "$name"
+    else
+      print -u2 "No alias or function named: $name"
+      return 1
+    fi
+  done
+}
 dlogs() {
   local container=${1:-}
   [[ -n $container ]] || { print -u2 'Usage: dlogs <container> [tail]'; return 2; }
@@ -169,4 +186,3 @@ fzfc() {
 (( $+commands[bat] )) || { (( $+commands[batcat] )) && alias bat='batcat'; }
 (( $+commands[bat] || $+commands[batcat] )) && alias cat='bat'
 (( $+commands[fd] )) || { (( $+commands[fdfind] )) && alias fd='fdfind'; }
-(( $+commands[rg] )) && alias grep='rg'
