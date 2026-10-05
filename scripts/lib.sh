@@ -6,10 +6,11 @@ backup_dir=
 umask 077
 # Shared by scripts that source this library.
 # shellcheck disable=SC2034
-C_RESET='' C_RED='' C_CYAN=''
+C_RESET='' C_RED='' C_CYAN='' C_GREEN=''
 if [[ -t 1 && -z ${NO_COLOR+x} && ${TERM:-dumb} != dumb ]]; then
   C_RESET=$'\033[0m'
   C_RED=$'\033[31m'
+  C_GREEN=$'\033[32m'
   # Used by scripts that source this library.
   # shellcheck disable=SC2034
   C_CYAN=$'\033[36m'
@@ -44,25 +45,53 @@ run() {
   fi
 }
 
-# Keep commands in the foreground: sudo needs the terminal and NVM changes PATH.
+# Only the spinner runs in the background; NVM must retain its shell changes.
 progress() {
-  local label=$1 log status started=$SECONDS
+  local label=$1 log status started=$SECONDS spinner='' owner=${BASHPID:-$$} frame=0
+  local -a frames=('⠋' '⠙' '⠹' '⠸' '⠼' '⠴')
   shift
   if [[ ${DRY_RUN:-0} == 1 || ${DOTFILES_VERBOSE:-0} == 1 ]]; then
     run "$@"
     return
   fi
-  printf '%s  › %s%s\n' "$C_CYAN" "$label" "$C_RESET"
   log=$(mktemp)
+  if [[ -t 1 && ${TERM:-dumb} != dumb ]]; then
+    (
+      trap 'exit 0' TERM HUP
+      while kill -0 "$owner" 2>/dev/null; do
+        printf '\r\033[K  %s%s%s %s · %ss' "$C_CYAN" "${frames[frame]}" "$C_RESET" "$label" "$((SECONDS - started))"
+        sleep 0.12
+        frame=$(((frame + 1) % ${#frames[@]}))
+      done
+    ) &
+    spinner=$!
+  fi
   if "$@" >"$log" 2>&1; then
-    rm -f -- "$log"
-    printf '  ✓ %s (%ss)\n' "$label" "$((SECONDS - started))"
+    status=0
   else
     status=$?
+  fi
+  if [[ -n $spinner ]]; then
+    kill "$spinner" 2>/dev/null || true
+    wait "$spinner" 2>/dev/null || true
+    printf '\r\033[K'
+  fi
+  if ((status == 0)); then
+    printf '  %s✓%s %s (%ss)\n' "$C_GREEN" "$C_RESET" "$label" "$((SECONDS - started))"
+  else
     printf '%s  ✗ %s%s\n' "$C_RED" "$label" "$C_RESET" >&2
     cat "$log" >&2
-    rm -f -- "$log"
-    return "$status"
+  fi
+  rm -f -- "$log"
+  return "$status"
+}
+
+authorize_sudo() {
+  [[ ${DRY_RUN:-0} != 1 ]] || return 0
+  command -v sudo >/dev/null || die 'Install sudo before installing Linux dotfiles.'
+  if ! sudo -n -v 2>/dev/null; then
+    printf '\n%s  Dotfiles needs sudo for Ubuntu tools and time synchronization.%s\n' "$C_CYAN" "$C_RESET"
+    sudo -v
   fi
 }
 
@@ -92,7 +121,7 @@ apt_lock_holders() {
 wait_for_apt() {
   local attempt timeout max_attempts
   [[ ${DRY_RUN:-0} == 1 ]] && return 0
-  command -v sudo >/dev/null || die 'Install sudo before installing Linux dotfiles.'
+  authorize_sudo
   timeout=${APT_LOCK_TIMEOUT:-300}
   [[ $timeout =~ ^[1-9][0-9]*$ ]] || die 'APT_LOCK_TIMEOUT must be a positive integer.'
   max_attempts=$(((timeout + 1) / 2))
@@ -143,7 +172,7 @@ ensure_time_sync() {
     TIME_SYNC_READY=1
     return 0
   fi
-  command -v sudo >/dev/null || die 'Install sudo before installing Linux dotfiles.'
+  authorize_sudo
   run sudo systemctl enable --now "$service"
   run sudo systemctl restart "$service"
   attempt=0

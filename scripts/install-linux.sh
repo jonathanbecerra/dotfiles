@@ -52,8 +52,7 @@ install_binaries() {
         *) [[ -x $destination ]] && continue ;;
       esac
     fi
-    printf 'Installing %s\n' "$tool"
-    curl --fail --silent --show-error --location --retry 3 "$url" -o "$temporary/archive"
+    progress "Download $tool" curl --fail --silent --show-error --location --retry 3 "$url" -o "$temporary/archive"
     printf '%s  %s\n' "$checksum" "$temporary/archive" | sha256sum --check --status
     case $tool in
       nvim)
@@ -109,9 +108,9 @@ fi
 
 command -v sudo >/dev/null || die 'Install sudo before installing Linux dotfiles.'
 command -v apt-get >/dev/null || die 'This Linux host needs apt-get.'
-progress 'Refresh Ubuntu tool packages' sudo apt-get update
+progress 'Refresh Ubuntu tool packages' sudo -n apt-get update
 wait_for_apt
-progress 'Install Ubuntu tools' sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends "${apt_packages[@]}"
+progress 'Install Ubuntu tools' sudo -n env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends "${apt_packages[@]}"
 
 temporary=$(mktemp -d)
 trap 'rm -rf -- "$temporary"' EXIT

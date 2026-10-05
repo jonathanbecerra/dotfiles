@@ -24,7 +24,7 @@ if [[ ${DRY_RUN:-0} != 1 ]]; then
     printf '%sRemoving empty .zshrc placeholder.%s\n' "$C_CYAN" "$C_RESET"
     rm -- "$target_dir/.zshrc"
   fi
-  if ! stow --simulate --restow --no-folding --dir="$DOTFILES_ROOT" --target="$target_dir" "${packages[@]}"; then
+  if ! progress 'Check existing configs' stow --simulate --restow --no-folding --dir="$DOTFILES_ROOT" --target="$target_dir" "${packages[@]}"; then
     printf '%sConfig conflicts found.%s\n' "$C_RED" "$C_RESET" >&2
     printf '%sRun:%s\n\tmake refresh\n\tmake refresh action=apply\n' "$C_CYAN" "$C_RESET" >&2
     exit 1
@@ -33,6 +33,14 @@ fi
 export XDG_CONFIG_HOME="$target_dir/.config" XDG_DATA_HOME="$target_dir/.local/share"
 export XDG_STATE_HOME="$target_dir/.local/state" XDG_CACHE_HOME="$target_dir/.cache"
 export NVM_DIR="$XDG_DATA_HOME/nvm"
+install_plugin() {
+  local repository=$1 commit=$2 destination=$3
+  if [[ ! -d $destination/.git ]]; then
+    run git clone -q --filter=blob:none "$repository" "$destination" || return
+  fi
+  run git -C "$destination" fetch -q --depth 1 "$repository" "$commit" || return
+  run git -C "$destination" checkout -q --detach "$commit"
+}
 while IFS=$'\t' read -r relative repository commit; do
   [[ -z $relative || $relative == \#* ]] && continue
   check_path ".local/share/$relative"
@@ -45,11 +53,7 @@ while IFS=$'\t' read -r relative repository commit; do
       [[ $(git -C "$destination" rev-parse HEAD) != "$commit" ]] || continue
     fi
   fi
-  if [[ ! -d $destination/.git ]]; then
-    run git clone -q --filter=blob:none "$repository" "$destination"
-  fi
-  run git -C "$destination" fetch -q --depth 1 "$repository" "$commit"
-  run git -C "$destination" checkout -q --detach "$commit"
+  progress "Install ${relative##*/}" install_plugin "$repository" "$commit" "$destination"
 done <"$DOTFILES_ROOT/deps/plugins.tsv"
 
 node_version=$(<"$DOTFILES_ROOT/.nvmrc")
@@ -73,7 +77,7 @@ run mkdir -p "$tools_dir"
 run install -m 0644 "$DOTFILES_ROOT/deps/nvim/package.json" "$tools_dir/package.json"
 run install -m 0644 "$DOTFILES_ROOT/deps/nvim/package-lock.json" "$tools_dir/package-lock.json"
 progress 'Install editor tools' npm --prefix "$tools_dir" ci --no-audit --no-fund
-bash "$DOTFILES_ROOT/scripts/stow.sh"
+progress 'Link dotfiles' bash "$DOTFILES_ROOT/scripts/stow.sh"
 if command -v bat >/dev/null; then
   progress 'Build bat themes' bat cache --build
 elif command -v batcat >/dev/null; then

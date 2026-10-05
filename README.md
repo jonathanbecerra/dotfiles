@@ -18,9 +18,10 @@ Run as your normal user. Installation asks for sudo when needed, checks
 time synchronization on Linux, and reloads Zsh when finished. VPS guided
 setup calls the same installer for its selected admin.
 
-Package and editor installation show short progress lines. Failed steps print
-their output; sudo prompts stay visible. Use `DOTFILES_VERBOSE=1 make install`
-to see the full output while it runs.
+Installation shows one spinner per step, replaced by a check and elapsed time.
+Successful Git and Stow output stays hidden. Failed steps print their output;
+sudo authentication happens before progress starts, with an explanation.
+Use `DOTFILES_VERBOSE=1 make install` to see the full output while it runs.
 
 If tools are already installed, use `make stow` to link configs only.
 
