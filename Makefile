@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 export DRY_RUN DOTFILES_TARGET
-.PHONY: help install reload-zsh stow refresh restore prune-brew check
+.PHONY: help install reload-zsh stow refresh restore prune-brew check check-editor
 
 help:
 	@printf '%s\n' \
@@ -13,6 +13,7 @@ help:
 	  'make prune-brew                 Preview Homebrew removals' \
 	  'make prune-brew action=apply    Apply Homebrew cleanup' \
 	  'make check                      Validate the dotfiles checkout' \
+	  'make check-editor               Download and test the pinned editor in a temporary directory' \
 	  'DRY_RUN=1 make <target>          Preview supported commands'
 
 install:
@@ -36,3 +37,6 @@ prune-brew:
 
 check:
 	@bash scripts/check.sh
+
+check-editor:
+	@bash scripts/check-editor.sh

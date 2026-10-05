@@ -97,7 +97,7 @@ for tool in brew git curl npm nvm nvim stow bat batcat sudo; do
   printf '#!/bin/sh\nprintf "Unexpected tool call: %%s\\n" "$0" >&2\nexit 99\n' >"$temporary/bin/$tool"
   chmod +x "$temporary/bin/$tool"
 done
-for script in install stow refresh manage-brew check; do
+for script in install stow refresh manage-brew check check-editor; do
   DRY_RUN=1 DOTFILES_TARGET="$temporary/dry-home" PATH="$temporary/bin:$PATH" \
     bash "$repo/scripts/$script.sh" >/dev/null
 done
