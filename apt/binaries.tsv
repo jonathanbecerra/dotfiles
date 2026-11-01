@@ -1,6 +1,8 @@
 # tool	arch	url	sha256	member
 eza	x86_64	https://github.com/eza-community/eza/releases/download/v0.23.5/eza_x86_64-unknown-linux-musl.tar.gz	e06eebab74b73d6b7d51a796a353824b001bea82df077706382e100815d28904	./eza
 eza	aarch64	https://github.com/eza-community/eza/releases/download/v0.23.5/eza_aarch64-unknown-linux-gnu_no_libgit.tar.gz	1c01b578b5bd3f23b7de5a4b41936cde20fb16ff16a03e63266317ac1eb821e0	./eza
+fastfetch	x86_64	https://github.com/fastfetch-cli/fastfetch/releases/download/2.70.0/fastfetch-linux-amd64.tar.gz	945b941b2a85e8de88b4c89714ad18ee6a7a129bb3c544bb448e9e0e027c226a	fastfetch-linux-amd64/usr/bin/fastfetch
+fastfetch	aarch64	https://github.com/fastfetch-cli/fastfetch/releases/download/2.70.0/fastfetch-linux-aarch64.tar.gz	fff4a127e4d76242e3bdac2a12430fc252fd6086d3eb30aee0382c3b0fece478	fastfetch-linux-aarch64/usr/bin/fastfetch
 cloudflared	x86_64	https://github.com/cloudflare/cloudflared/releases/download/2026.9.3/cloudflared-linux-amd64	77e26d8d900e0b8469f416239d14b5f296525fdf79fee6f511ef55609e3fbac2	-
 cloudflared	aarch64	https://github.com/cloudflare/cloudflared/releases/download/2026.9.3/cloudflared-linux-arm64	aaeb2d7d0da3614634c7e03ab13487a1522c2e79165ed2929cfe23d5e95b326d	-
 git-cliff	x86_64	https://github.com/orhun/git-cliff/releases/download/v2.14.2/git-cliff-2.14.2-x86_64-unknown-linux-gnu.tar.gz	24f397c733add5390fdceee3a2088588ab0d5f944ce00d34cb7029b888cf2db4	git-cliff-2.14.2/git-cliff
